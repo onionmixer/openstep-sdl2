@@ -1,5 +1,8 @@
 OPENSTEP SDL2 2.32.10
 
-This package provides the static SDL2 development archive and public headers
-for OPENSTEP 4.2 Intel i386/i486. It is a port of upstream SDL 2.32.10, not an
-OPENSTEP-specific SDL extension. Mesa is deliberately a separate package.
+This release is split into `OpenStepSDL2Libraries.pkg`,
+`OpenStepSDL2Headers.pkg` and `OpenStepSDL2Demos.pkg`.  Libraries and Headers
+provide the static SDL2 development archive and public headers for OPENSTEP
+4.2 Intel i386/i486; Demos provides rebuildable example source and i386
+binaries. It is a port of upstream SDL 2.32.10, not an OPENSTEP-specific SDL
+extension. Mesa is deliberately a separate product.

@@ -13,10 +13,23 @@ OPENSTEP static-library target and has no LLVM dependency.
 
 The target evidence is recorded in
 [notes/TARGET_INVENTORY_20260815.md](notes/TARGET_INVENTORY_20260815.md).
-The current target closure has substantial compiler and runtime evidence, but
-it is a diagnostic `ld -r` artifact rather than a distributable SDL2 library.
-No `libSDL2.a` is released until the complete public export and acceptance
-gates in `notes/API_COVERAGE.md` pass.
+The final i386 `libSDL2.a` passes the 836-symbol public API archive check.
+
+## Installer delivery status
+
+The target build produces three independently installable packages at one
+prefix (normally `/LocalDeveloper`):
+
+- `OpenStepSDL2Libraries.pkg` — `libSDL2.a` only.
+- `OpenStepSDL2Headers.pkg` — public headers and documentation.
+- `OpenStepSDL2Demos.pkg` — rebuildable port/upstream example source, assets
+  and i386 demo binaries.
+
+All three packages have been installed and their installed demo source has
+been rebuilt using only `/LocalDeveloper` headers and libraries.  Runtime demo
+coverage and Installer deletion isolation remain release gates; therefore no
+GitHub Release asset or tag is claimed yet.  The detailed contract is
+[release-packaging/SPLIT_PACKAGE_CONTRACT.md](release-packaging/SPLIT_PACKAGE_CONTRACT.md).
 
 ## Intended layout
 

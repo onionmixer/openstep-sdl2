@@ -1,9 +1,9 @@
-Title OPENSTEP SDL2 Headers and Examples (Intel i486)
+Title OPENSTEP SDL2 Headers and Documentation (Intel i486)
 Version 2.32.10-openstep.1
-Description Intel i486-only SDL 2.32.10 headers, documentation and examples for OPENSTEP 4.2.
+Description Intel i486-only SDL 2.32.10 headers and documentation for OPENSTEP 4.2.
 DefaultLocation /LocalDeveloper
 Relocatable YES
 Application NO
 UseUserMask NO
 DiskName OPENSTEP SDL2 Headers
-DeleteWarning Removing this package removes SDL2 headers, documentation and examples from the selected development prefix.
+DeleteWarning Removing this package removes SDL2 headers and documentation from the selected development prefix.

@@ -6,4 +6,5 @@ target_cpu=i486
 binary_architecture=Mach-O i386 only
 public_api_symbols=836
 library=libSDL2.a
-mesa_dependency=optional separate OpenStepMesa342.pkg
+installer_packages=OpenStepSDL2Libraries.pkg OpenStepSDL2Headers.pkg OpenStepSDL2Demos.pkg
+mesa_dependency=optional separate OpenStepMesa342Libraries.pkg OpenStepMesa342Headers.pkg

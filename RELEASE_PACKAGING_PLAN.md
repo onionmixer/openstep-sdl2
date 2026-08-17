@@ -1,22 +1,23 @@
 # OPENSTEP SDL2 / Mesa 3.4.2 릴리즈·Installer 패키지 계획
 
 작성일: 2026-08-17
-상태: **계획 승인 전 — 원격 저장소와 배포 파일은 아직 만들지 않음**
+상태: **패키지 분할·설치·설치본 재컴파일 완료. 런타임 및 삭제 격리 검증과
+GitHub Release asset은 아직 미완료.**
 
 ## 1. 목표와 비목표
 
-이번 릴리즈는 각 제품을 Library와 Headers/Examples라는 두 설치 단위로
+이번 릴리즈는 각 제품을 Libraries, Headers, Demos라는 세 설치 단위로
 나눈다.
 
 | 구성 | GitHub 저장소 식별자 | 제품/Installer 표시명 | 기준 버전 | 역할 |
 | --- | --- | --- | --- | --- |
-| SDL | `openstep-sdl2` | OPENSTEP SDL2 | SDL `2.32.10` | 표준 SDL2 정적 라이브러리와 헤더 |
-| Mesa | `opennstep-mesa342` | OPENSTEP Mesa 3.4.2 (Intel i486) | Mesa `3.4.2` | Intel i486 전용 GL 1.2/GLU/OSMesa 정적 라이브러리와 헤더 |
+| SDL | `openstep-sdl2` | OPENSTEP SDL2 | SDL `2.32.10` | 표준 SDL2 정적 라이브러리·헤더·데모 |
+| Mesa | `opennstep-mesa342` | OPENSTEP Mesa 3.4.2 (Intel i486) | Mesa `3.4.2` | Intel i486 전용 GL 1.2/GLU/OSMesa 라이브러리·헤더·데모 |
 
 `opennstep-mesa342`는 요청에 적힌 원격 저장소 철자를 그대로 쓴다. 문서와
 Installer 화면의 제품명은 혼동을 피하기 위해 **OPENSTEP Mesa 3.4.2**로
-표기한다. 저장소 소유자와 공개 범위는 아직 정해지지 않았으므로, 실제 `gh`
-생성 직전의 승인 항목이다.
+표기한다. 두 원격 저장소는 생성·push되었으며, 생성된 `.pkg` 디렉터리와
+GitHub Release asset은 아직 별도 배포하지 않는다.
 
 목표는 OPENSTEP 4.2 i486에서 Installer.app으로 설치·삭제 가능한 개발자용
 정적 라이브러리 패키지와, 그 패키지를 재현하는 두 독립 소스 저장소를
@@ -72,20 +73,14 @@ payload manifest는 일반 파일만을 계약으로 기록한다. 다만 대상
 
 ### 3.2 Mesa payload 계약
 
-`OpenStepMesa342.pkg`가 선택한 prefix 아래에 만드는 내용은 다음으로
-한정한다.
+Mesa의 세 패키지는 선택한 동일 prefix에 다음의 분리된 내용을 만든다.
 
 ```text
-Headers/GL/gl.h
-Headers/GL/glu.h
-Headers/GL/osmesa.h
-Libraries/libGL.a                 # OSMesa 포함
-Libraries/libGLU.a
-Documentation/OpenStep-Mesa-3.4.2/
-    README.OPENSTEP
-    COPYRIGHT
-    PORT-NOTES.md
-    LINKING.md
+OpenStepMesa342Libraries.pkg: Libraries/libGL.a (OSMesa 포함), libGLU.a
+OpenStepMesa342Headers.pkg: Headers/GL/{gl.h,glext.h,glu.h,glu_mangle.h,osmesa.h}
+    및 Documentation/OpenStep-Mesa-3.4.2/
+OpenStepMesa342Demos.pkg: Examples/OpenStep-Mesa-3.4.2/ 아래의 OSMesaClear와
+    원본 MesaView의 source, build script, resources, i386 binary
 ```
 
 GLX/X11 전용 헤더나 Mesa의 데모·GLUT·드라이버는 이 i486 OPENSTEP 패키지의
@@ -100,19 +95,14 @@ cc -m486 -I<prefix>/Headers program.c -L<prefix>/Libraries -lGL -lm ...
 
 ### 3.3 SDL payload 계약
 
-`OpenStepSDL2.pkg`는 같은 prefix 아래에 다음을 설치한다.
+SDL2의 세 패키지는 같은 prefix 아래에 다음을 분리 설치한다.
 
 ```text
-Headers/SDL2/SDL*.h
-Headers/SDL2/begin_code.h
-Headers/SDL2/close_code.h
-Libraries/libSDL2.a
-Documentation/OpenStep-SDL2-2.32.10/
-    README.OPENSTEP
-    API-COVERAGE.md
-    PORT-NOTES.md
-    LINKING.md
-    LICENSE.txt
+OpenStepSDL2Libraries.pkg: Libraries/libSDL2.a
+OpenStepSDL2Headers.pkg: Headers/SDL2/의 public headers 및
+    Documentation/OpenStep-SDL2-2.32.10/
+OpenStepSDL2Demos.pkg: Examples/OpenStep-SDL2-2.32.10/ 아래의 port smoke와
+    선택된 upstream demo source, support source/assets, build scripts, i386 binaries
 ```
 
 공개 헤더는 upstream SDL2 헤더 전체 중 OPENSTEP 전처리 결과와 836-심볼
@@ -139,7 +129,7 @@ openstep-sdl2/
   upstream/SDL-2.32.10/              # 또는 검증된 source tar + fetch manifest
   port/openstep/  build/  test/
   packaging/openstep/
-    payload-manifest.txt  OpenStepSDL2.info  build-package.csh
+    payload manifest  OpenStepSDL2{Libraries,Headers,Demos}.info  build-split-packages.csh
     verify-package.csh  release-manifest.txt
   docs/  evidence/release/
 
@@ -148,7 +138,7 @@ opennstep-mesa342/
   upstream/Mesa-3.4.2/               # 또는 검증된 source tar + fetch manifest
   port/openstep/  build/  test/
   packaging/openstep/
-    payload-manifest.txt  OpenStepMesa342.info  build-package.csh
+    payload manifest  OpenStepMesa342{Libraries,Headers,Demos}.info  build-split-packages.csh
     verify-package.csh  release-manifest.txt
   docs/  evidence/release/
 ```
@@ -166,25 +156,23 @@ OPENSTEP의 실제 `/NextAdmin/Installer.app/package`를 대상에서 사용한�
 이 도구는 payload root와 `.info`에서 다음 파일 패키지를 생성한다.
 
 ```text
-OpenStepSDL2.pkg/
-  OpenStepSDL2.tar.Z
-  OpenStepSDL2.bom
-  OpenStepSDL2.info
-  OpenStepSDL2.sizes
+OpenStepSDL2Libraries.pkg/  OpenStepSDL2Headers.pkg/  OpenStepSDL2Demos.pkg/
+  <matching basename>.tar.Z, .bom, .info and .sizes
 
-OpenStepMesa342.pkg/
-  OpenStepMesa342.tar.Z
-  OpenStepMesa342.bom
-  OpenStepMesa342.info
-  OpenStepMesa342.sizes
+OpenStepMesa342Libraries.pkg/  OpenStepMesa342Headers.pkg/  OpenStepMesa342Demos.pkg/
+  <matching basename>.tar.Z, .bom, .info and .sizes
 ```
 
 `.pkg`는 Workspace에서 여는 디렉터리이므로 GitHub Release에는 디렉터리
 자체가 아니라 한 단계 감싼 다음 파일을 올린다.
 
 ```text
-OpenStep-SDL2-2.32.10-openstep.1-i486.pkg.tar.gz
-OpenStep-Mesa-3.4.2-openstep.1-i486.pkg.tar.gz
+OpenStep-SDL2-2.32.10-openstep.1-i486-Libraries.pkg.tar.gz
+OpenStep-SDL2-2.32.10-openstep.1-i486-Headers.pkg.tar.gz
+OpenStep-SDL2-2.32.10-openstep.1-i486-Demos.pkg.tar.gz
+OpenStep-Mesa-3.4.2-openstep.1-i486-Libraries.pkg.tar.gz
+OpenStep-Mesa-3.4.2-openstep.1-i486-Headers.pkg.tar.gz
+OpenStep-Mesa-3.4.2-openstep.1-i486-Demos.pkg.tar.gz
 SHA256SUMS
 ```
 
@@ -229,39 +217,45 @@ software OSMesa, i486/OPENSTEP 4.2), 제외 범위(X11/GLX, GLES/EGL/Vulkan,
 
 ## 7. 실행 단계와 게이트
 
-### P0 — 릴리즈 계약 확정
+### P0 — 릴리즈 계약·패키지 분할 **완료**
 
-1. GitHub owner와 `public`/`private`를 확정한다.
-2. 위 설치 prefix, 패키지 표시명, artifact 이름, version scheme을 확정한다.
-3. `opennstep-mesa342` 철자가 의도된 원격 식별자인지 마지막으로 확인한다.
-4. 검증된 full upstream snapshot과 port overlay의 분리를 유지한다.
-5. 두 payload manifest를 작성하고, 각각에 다른 프로젝트 파일이 섞이지
-   않음을 host-side 검사로 고정한다.
+1. GitHub 원격 `onionmixer/openstep-sdl2`와
+   `onionmixer/opennstep-mesa342`를 생성하고 source를 push했다.
+2. `/LocalDeveloper` 기본 prefix, 세 package 표시명과
+   `*-openstep.1` version scheme을 `.info` metadata에 적용했다.
+3. `opennstep-mesa342` 철자가 의도된 원격 식별자임을 확정했다.
+4. 검증된 full upstream snapshot과 port overlay를 각 저장소에서 분리해 유지한다.
+5. 제품별 Libraries/Headers/Demos payload manifest와 target verifier가
+   package class 간의 archive/header/demo 혼입을 검사한다.
 
 **통과 기준:** 설치되는 파일의 정확한 목록, 라이선스 목록, 삭제 시 보존돼야 할
 공유 디렉터리, 소비자 링크 명령이 문서와 manifest에서 하나로 일치한다.
 
-### P1 — Mesa 저장소와 패키지 구현
+### P1 — Mesa 저장소와 패키지 구현 **완료**
 
 1. Mesa 3.4.2 pristine source와 OpenStep build scripts/test를 새 저장소
    구조로 추출한다.
 2. 깨끗한 target stage에서 `make CC='cc -m486' openstep`을 실행한다.
 3. `libGL.a`, `libGLU.a`, `osmesa.o`, 공개 GL/GLU/OSMesa headers를
    manifest대로 payload root에 복사한다.
-4. 대상 `package`로 `OpenStepMesa342.pkg`를 생성한다.
+4. 대상 `package`로 `OpenStepMesa342Libraries.pkg`,
+   `OpenStepMesa342Headers.pkg`, `OpenStepMesa342Demos.pkg`를 생성한다.
 5. archive listing, BOM, sizes, file mode, source/payload SHA-256을 검증한다.
 
 **통과 기준:** Mesa OSMesa smoke, context matrix, MesaView와 header/link 소비자
 검증이 clean build와 Installer payload 모두에서 통과한다.
 
-### P2 — SDL 저장소와 패키지 구현
+### P2 — SDL 저장소와 패키지 구현 **완료**
 
 1. SDL upstream/overlay/build/test를 독립 저장소로 추출하고 Mesa source·binary
    중복을 제거한다. Mesa는 문서화된 optional dependency로만 참조한다.
 2. clean stage에서 release archive를 재생성하고 target
    `check-final-api-manifest.csh`의 836 심볼 검증을 수행한다.
-3. manifest의 공개 헤더와 `libSDL2.a`, 문서/라이선스만 payload root에 넣는다.
-4. 대상 `package`로 `OpenStepSDL2.pkg`를 생성하고 P1과 같은 구조 검사를 한다.
+3. 공개 헤더/문서, `libSDL2.a`, 데모 source/assets/scripts/binaries를 각각의
+   payload root에 넣고, package 사이에 중복 archive/header가 없게 한다.
+4. 대상 `package`로 `OpenStepSDL2Libraries.pkg`,
+   `OpenStepSDL2Headers.pkg`, `OpenStepSDL2Demos.pkg`를 생성하고 P1과 같은
+   구조 검사를 한다.
 
 **통과 기준:** SDL의 전체 final-archive regression, 2D/오디오/타이머/스레드,
 AppKit 창·입력, software renderer, 그리고 Mesa가 설치된 prefix에서 GL 1.2
@@ -272,20 +266,22 @@ window/lifecycle 및 보존된 upstream SDL 2.0.0 `testgl2` 소비자가 통과�
 실기에서 매 회차 비어 있는 시험 prefix를 사용한다. 예:
 `/tmp/OPENSTEP-PKG-SMOKE`.
 
-1. Mesa `.pkg`를 Installer.app으로 설치한다.
+1. Mesa Libraries와 Headers `.pkg`를 Installer.app으로 동일 prefix에 설치한다.
 2. 설치된 Mesa headers/static archives만 사용해 OSMesa/GLU 소비자를 새로
    컴파일·실행한다.
-3. SDL `.pkg`를 **같은** prefix에 설치한다.
+3. SDL Libraries와 Headers `.pkg`를 **같은** prefix에 설치한다.
 4. 설치된 파일만 사용해 2D SDL consumer와 Mesa-backed SDL GL consumer를
    새로 컴파일·실행한다. 빌드 stage나 `/tmp/SDL20`의 헤더/라이브러리를
    include/link path에 넣지 않는다.
-5. SDL package 삭제 후 Mesa 소비자가 계속 동작하고 Mesa files가 남는지
-   확인한다.
-6. Mesa package 삭제 후 시험 prefix에 BOM이 기록한 파일이 남지 않는지
+5. Demos `.pkg`를 설치한 뒤, package 안의 source와 build scripts만 사용해
+   실행 파일을 다시 만든다.
+6. 한 product의 Demos, Headers, Libraries를 역순으로 삭제하면서 다른 package
+   class와 다른 product 소비자가 계속 동작하는지 확인한다.
+7. 마지막 package 삭제 후 시험 prefix에 BOM이 기록한 파일이 남지 않는지
    확인한다. 시험 prefix 밖의 `/NextDeveloper`, `/NextLibrary`는 전후
    manifest/hash 비교로 불변임을 확인한다.
 
-**통과 기준:** Installer의 install/delete 로그가 성공이고, two-package
+**통과 기준:** Installer의 install/delete 로그가 성공이고, six-package
 공존·순서별 삭제·clean consumer build가 모두 통과한다. 이 게이트 전에는
 GitHub Release asset을 만들지 않는다.
 
@@ -302,23 +298,16 @@ GitHub Release asset을 만들지 않는다.
 **통과 기준:** clean rebuild, payload 검증, P3 Installer smoke, checksum
 manifest가 모두 PASS이며 알려진 제한이 README/Release notes와 일치한다.
 
-### P5 — GitHub 원격 저장소·태그·Release
+### P5 — GitHub tag·Release asset **미완료**
 
 이 단계의 `gh` 작업은 사용자가 지정한 대로 **샌드박스 밖에서만** 수행한다.
 외부 상태를 만드는 순서는 다음으로 고정한다.
 
 1. 각 local repo가 clean이고 secret scan, license inventory, `git diff --check`,
    source/payload manifest 검사를 통과했는지 확인한다.
-2. 확인된 owner/visibility로 두 repository를 생성한다. 예시는 다음과 같지만
-   `$OWNER`와 공개 여부는 P0 승인값을 쓴다.
-
-   ```sh
-   gh repo create "$OWNER/openstep-sdl2" --SOURCE-VISIBILITY --source ./openstep-sdl2 --remote origin --push
-   gh repo create "$OWNER/opennstep-mesa342" --SOURCE-VISIBILITY --source ./opennstep-mesa342 --remote origin --push
-   ```
-
-   여기서 `--SOURCE-VISIBILITY`는 실제 명령에서는 `--public` 또는
-   `--private` 하나로 치환한다.
+2. 이미 생성된 `onionmixer/openstep-sdl2` 및
+   `onionmixer/opennstep-mesa342` 원격과 tag 대상 commit을 재확인한다.
+   Repository 생성 또는 visibility 변경은 이 단계의 작업이 아니다.
 3. upstream+port release tag를 생성·push한다.
 
    ```text
@@ -348,9 +337,8 @@ Installer 재설치가 성공한다.
 
 ## 9. 다음 작업 순서
 
-다음 구현 작업은 P0의 export manifest와 Installer `.info` 초안을 만드는
-것이다. 원격 저장소 생성은 그 뒤, 두 payload가 실제로 Installer에서
-설치·삭제되는 P3까지 통과한 RC에 한정한다.
+다음 작업은 P3의 설치본 런타임 검증과 삭제 격리 검증이다. P3와 P4가
+통과하기 전에는 GitHub tag 또는 Release asset을 만들지 않는다.
 
 ### 참고
 
