@@ -1,0 +1,15 @@
+#!/bin/csh -f
+# Installer extraction changes the archive pathname embedded in ranlib's index.
+if ($#argv < 2) then
+    echo "OPENSTEP SDL2 post_install: missing install prefix"
+    exit 1
+endif
+set prefix = $argv[2]
+if (! -r $prefix/Libraries/libSDL2.a) then
+    echo "OPENSTEP SDL2 post_install: libSDL2.a missing under $prefix"
+    exit 1
+endif
+ranlib $prefix/Libraries/libSDL2.a
+if ($status != 0) exit 1
+echo "OPENSTEP SDL2: reindexed libSDL2.a"
+exit 0

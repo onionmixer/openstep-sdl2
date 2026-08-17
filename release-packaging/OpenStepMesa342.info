@@ -1,0 +1,11 @@
+# Template consumed by /NextAdmin/Installer.app/package.
+# The package utility derives OpenStepMesa342.pkg from this basename.
+Title OPENSTEP Mesa 3.4.2 (Intel i486)
+Version 3.4.2-openstep.1
+Description Intel i486-only static OpenGL 1.2, GLU and OSMesa development libraries for OPENSTEP 4.2.
+DefaultLocation /LocalDeveloper
+Relocatable YES
+Application NO
+UseUserMask NO
+DiskName OPENSTEP Mesa 3.4.2 Intel
+DeleteWarning Removing this package removes its Mesa headers and static libraries from the selected development prefix.

@@ -1,0 +1,9 @@
+# OPENSTEP target build and Installer artifacts are regenerated from source.
+dist/
+stage/
+*.o
+*.a
+*.pkg
+*.tar.Z
+*~
+.DS_Store

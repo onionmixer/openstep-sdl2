@@ -1,0 +1,7 @@
+#!/bin/csh -f
+set cpu = `/usr/bin/arch`
+if ("$cpu" != "i386") then
+    echo "OPENSTEP SDL2 Headers and Examples installs only on Intel i386/i486 computers."
+    exit 1
+endif
+exit 0

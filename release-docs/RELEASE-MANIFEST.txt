@@ -1,0 +1,9 @@
+product=OPENSTEP SDL2
+upstream_version=2.32.10
+port_revision=2.32.10-openstep.1
+target_os=OPENSTEP 4.2
+target_cpu=i486
+binary_architecture=Mach-O i386 only
+public_api_symbols=836
+library=libSDL2.a
+mesa_dependency=optional separate OpenStepMesa342.pkg

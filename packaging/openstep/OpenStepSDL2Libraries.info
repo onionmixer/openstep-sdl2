@@ -1,0 +1,9 @@
+Title OPENSTEP SDL2 Libraries (Intel i486)
+Version 2.32.10-openstep.1
+Description Intel i486-only static SDL 2.32.10 library for OPENSTEP 4.2.
+DefaultLocation /LocalDeveloper
+Relocatable YES
+Application NO
+UseUserMask NO
+DiskName OPENSTEP SDL2 Libraries Intel
+DeleteWarning Removing this package removes libSDL2.a from the selected development prefix.
