@@ -1,0 +1,9 @@
+Title OPENSTEP SDL2 Demos (Intel i486)
+Version 2.32.10-openstep.1
+Description Intel i486-only SDL 2.32.10 demo source and binaries for OPENSTEP 4.2.
+DefaultLocation /LocalDeveloper
+Relocatable YES
+Application NO
+UseUserMask NO
+DiskName OPENSTEP SDL2 Demos Intel
+DeleteWarning Removing this package removes SDL2 demo source, build scripts and binaries from the selected development prefix.

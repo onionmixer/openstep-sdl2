@@ -48,22 +48,25 @@ for file in \
     "$root/packaging/openstep/OpenStepSDL2.pre_install" \
     "$root/packaging/openstep/OpenStepSDL2.post_install" \
     "$root/packaging/openstep/OpenStepSDL2Headers.pre_install" \
+    "$root/packaging/openstep/OpenStepSDL2Demos.pre_install" \
     "$root/packaging/openstep/installer-architecture-marker.c" \
     "$root/packaging/openstep/build-split-packages.csh" \
     "$root/packaging/openstep/OpenStepSDL2Libraries.info" \
     "$root/packaging/openstep/OpenStepSDL2Headers.info" \
+    "$root/packaging/openstep/OpenStepSDL2Demos.info" \
     "$root/release-docs/README.OPENSTEP" \
     "$root/release-docs/API-COVERAGE.md" \
     "$root/release-docs/PORT-NOTES.md" \
     "$root/release-docs/LINKING.md" \
     "$root/release-docs/RELEASE-MANIFEST.txt" \
     "$root/release-examples/sdl2/sdl2_clear.c" \
-    "$root/release-examples/sdl2/build-sdl2-clear.csh"
+    "$root/release-examples/sdl2/build-sdl2-clear.csh" \
+    "$root/release-examples/sdl2/build-upstream-demos.csh"
 do
     require_file "$file"
 done
 
-for info in "$packaging/OpenStepSDL2.info" "$packaging/OpenStepMesa342.info"
+for info in "$packaging/OpenStepSDL2.info" "$packaging/OpenStepMesa342.info" "$root/packaging/openstep/OpenStepSDL2Demos.info"
 do
     for field in Title Version Description DefaultLocation Relocatable Application UseUserMask DiskName DeleteWarning
     do

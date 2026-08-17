@@ -20,7 +20,7 @@ if (! -r $source_root/upstream/MesaLib-3.4.2.tar.gz) then
     echo "stage-openstep: missing verified MesaLib-3.4.2 archive"
     exit 2
 endif
-if (! -r $source_root/packaging/openstep/build-split-packages.csh || ! -r $source_root/packaging/openstep/OpenStepSDL2Libraries.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.pre_install || ! -r $source_root/release-docs/README.OPENSTEP || ! -r $source_root/release-examples/sdl2/sdl2_clear.c || ! -r $source_root/port/openstep/src/cpuinfo/SDL_openstepcpuinfo.c) then
+if (! -r $source_root/packaging/openstep/build-split-packages.csh || ! -r $source_root/packaging/openstep/OpenStepSDL2Libraries.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Demos.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.pre_install || ! -r $source_root/packaging/openstep/OpenStepSDL2Demos.pre_install || ! -r $source_root/release-docs/README.OPENSTEP || ! -r $source_root/release-examples/sdl2/sdl2_clear.c || ! -r $source_root/release-examples/sdl2/build-upstream-demos.csh || ! -r $source_root/port/openstep/src/cpuinfo/SDL_openstepcpuinfo.c) then
     echo "stage-openstep: missing SDL2 Installer packaging source"
     exit 2
 endif
@@ -79,6 +79,18 @@ if (! -d $stage_root/test/openstep) mkdir $stage_root/test/openstep
 cp $source_root/test/openstep/* $stage_root/test/openstep/
 if ($status != 0) then
     echo "stage-openstep: OPENSTEP smoke test copy failed"
+    rm -f $stage_archive
+    exit 1
+endif
+# The Demos package ships selected unmodified upstream SDL consumers together
+# with exactly the SDL_test support files and media each one needs.  Keep this
+# explicit rather than staging the whole large upstream test tree.
+if (! -d $stage_root/upstream/SDL-2.32.10/test) mkdir $stage_root/upstream/SDL-2.32.10/test
+if (! -d $stage_root/upstream/SDL-2.32.10/src/test) mkdir $stage_root/upstream/SDL-2.32.10/src/test
+cp $source_root/upstream/SDL-2.32.10/test/testgl2.c $source_root/upstream/SDL-2.32.10/test/testspriteminimal.c $source_root/upstream/SDL-2.32.10/test/testmultiaudio.c $source_root/upstream/SDL-2.32.10/test/testthread.c $source_root/upstream/SDL-2.32.10/test/testtimer.c $source_root/upstream/SDL-2.32.10/test/testutils.c $source_root/upstream/SDL-2.32.10/test/testutils.h $source_root/upstream/SDL-2.32.10/test/icon.bmp $source_root/upstream/SDL-2.32.10/test/sample.wav $stage_root/upstream/SDL-2.32.10/test/
+cp $source_root/upstream/SDL-2.32.10/src/test/SDL_test_common.c $source_root/upstream/SDL-2.32.10/src/test/SDL_test_assert.c $source_root/upstream/SDL-2.32.10/src/test/SDL_test_log.c $source_root/upstream/SDL-2.32.10/src/test/SDL_test_font.c $source_root/upstream/SDL-2.32.10/src/test/SDL_test_memory.c $source_root/upstream/SDL-2.32.10/src/test/SDL_test_crc32.c $stage_root/upstream/SDL-2.32.10/src/test/
+if ($status != 0) then
+    echo "stage-openstep: SDL upstream demo source copy failed"
     rm -f $stage_archive
     exit 1
 endif
