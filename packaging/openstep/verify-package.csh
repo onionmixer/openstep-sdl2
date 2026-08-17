@@ -36,7 +36,7 @@ if (! -r $hunpack/Headers/SDL2/SDL.h || ! -r $hunpack/Headers/SDL2/SDL_config_op
     echo "verify-sdl2-package: Headers payload is incomplete"
     exit 1
 endif
-if (! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/sdl2_clear.c || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/build-sdl2-clear.csh || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/build-upstream-demos.csh || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testgl2 || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testspriteminimal || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testmultiaudio || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testthread || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testtimer || ! -r $dunpack/Tools/OpenStepSDL2Demos-Intel) then
+if (! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/sdl2_clear.c || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/build-sdl2-clear.csh || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/build-upstream-demos.csh || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testgl11cube || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testspriteminimal || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testmultiaudio || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testthread || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/testtimer || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/icon.bmp || ! -r $dunpack/Examples/OpenStep-SDL2-2.32.10/sample.wav || ! -r $dunpack/Tools/OpenStepSDL2Demos-Intel) then
     echo "verify-sdl2-package: Demos payload is incomplete"
     exit 1
 endif
@@ -48,7 +48,7 @@ csh -f $src/build/check-final-api-manifest.csh $lunpack/Libraries/libSDL2.a
 if ($status != 0) exit 1
 csh -f $src/test/openstep/check-sdl2-archive-cpu.csh $lunpack/Libraries/libSDL2.a
 if ($status != 0) exit 1
-foreach binary ( $lunpack/Tools/OpenStepSDL2-Intel $hunpack/Tools/OpenStepSDL2Headers-Intel $dunpack/Tools/OpenStepSDL2Demos-Intel $dunpack/Examples/OpenStep-SDL2-2.32.10/sdl2_clear $dunpack/Examples/OpenStep-SDL2-2.32.10/testgl2 $dunpack/Examples/OpenStep-SDL2-2.32.10/testspriteminimal $dunpack/Examples/OpenStep-SDL2-2.32.10/testmultiaudio $dunpack/Examples/OpenStep-SDL2-2.32.10/testthread $dunpack/Examples/OpenStep-SDL2-2.32.10/testtimer )
+foreach binary ( $lunpack/Tools/OpenStepSDL2-Intel $hunpack/Tools/OpenStepSDL2Headers-Intel $dunpack/Tools/OpenStepSDL2Demos-Intel $dunpack/Examples/OpenStep-SDL2-2.32.10/sdl2_clear $dunpack/Examples/OpenStep-SDL2-2.32.10/testgl11cube $dunpack/Examples/OpenStep-SDL2-2.32.10/testspriteminimal $dunpack/Examples/OpenStep-SDL2-2.32.10/testmultiaudio $dunpack/Examples/OpenStep-SDL2-2.32.10/testthread $dunpack/Examples/OpenStep-SDL2-2.32.10/testtimer )
     file $binary | grep i386 > /dev/null
     if ($status != 0) then
         echo "verify-sdl2-package: non-i386 binary $binary"

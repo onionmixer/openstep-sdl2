@@ -36,9 +36,10 @@ OpenStepSDL2Headers.pkg
 OpenStepSDL2Demos.pkg
     Examples/OpenStep-SDL2-2.32.10/sdl2_clear.c
     Examples/OpenStep-SDL2-2.32.10/{build-sdl2-clear.csh,build-upstream-demos.csh}
-    Examples/OpenStep-SDL2-2.32.10/{sdl2_clear,testgl2,testspriteminimal,
+    Examples/OpenStep-SDL2-2.32.10/{sdl2_clear,testgl11cube,testspriteminimal,
         testmultiaudio,testthread,testtimer}
-    Examples/OpenStep-SDL2-2.32.10/Upstream/{testgl2.c,testspriteminimal.c,
+    Examples/OpenStep-SDL2-2.32.10/{icon.bmp,sample.wav}
+    Examples/OpenStep-SDL2-2.32.10/Upstream/{testgl11cube.c,testspriteminimal.c,
         testmultiaudio.c,testthread.c,testtimer.c,testutils.c,testutils.h,
         icon.bmp,sample.wav}
     Examples/OpenStep-SDL2-2.32.10/Support/{SDL_test_common.c,
@@ -86,3 +87,10 @@ replace `SDL_config.h` with an upstream template.
 6. Each package's i386-only marker is visible through `lsbom -arch i386` and
    absent from `lsbom -arch m68k`; every `pre_install` refuses a non-i386
    target.
+7. `sample.wav` and `icon.bmp` are present at the Demos root as well as beside
+   their retained upstream source: the unmodified audio and sprite consumers
+   locate these assets relative to their execution directory.
+8. `testgl11cube` is the byte-preserved official SDL 2.0.0 `testgl2` source,
+   renamed only for package clarity.  It uses Mesa 3.4.2's supported GL 1.1
+   fixed-function API.  The current SDL 2.32 `testgl2` is not shipped because
+   its eager modern GL loader correctly rejects the older Mesa 1.2 surface.

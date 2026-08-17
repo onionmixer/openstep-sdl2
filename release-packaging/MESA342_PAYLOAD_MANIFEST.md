@@ -45,12 +45,14 @@ OpenStepMesa342Headers.pkg
     Tools/OpenStepMesa342Headers-Intel
 
 OpenStepMesa342Demos.pkg
-    Examples/OpenStep-Mesa-3.4.2/OSMesaClear/{osmesa-clear.c,
+    Examples/Mesa342/OSMesaClear/{osmesa-clear.c,
         build-osmesa-clear.csh,osmesa-clear}
-    Examples/OpenStep-Mesa-3.4.2/MesaView/{MesaView.m,MesaView_main.m,
+    Examples/Mesa342/MesaView/{PB.project,MesaView.m,MesaView_main.m,
         MesaView.h,mesadraw.c,mesadraw.h,vect3d.c,vect3d.h,
-        build-mesaview.csh,MesaView}
-    Examples/OpenStep-Mesa-3.4.2/MesaView/English.lproj/MesaView.nib/
+        build-mesaview.csh}
+    Examples/Mesa342/MesaView/English.lproj/MesaView.nib/
+    Examples/Mesa342/MesaView/MesaView.app/{MesaView,
+        Resources/Info-nextstep.plist,Resources/English.lproj/MesaView.nib/}
     Tools/OpenStepMesa342Demos-Intel
 ```
 
@@ -85,3 +87,7 @@ includes `GL/gl.h` and is installed as the supported software-rendering API.
    is mandatory because the target archive index records its pathname and is
    stale after a package copy.  Every package has its own i386-only marker and
    `pre_install` check.
+7. MesaView is deliberately installed below `Examples/Mesa342/`, not the
+   longer product/version directory: its complete `.app` bundle then remains
+   below the historical Installer tar filename limit and extracts with the
+   native `installer_tar` tool.

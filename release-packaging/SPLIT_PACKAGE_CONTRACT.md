@@ -29,7 +29,8 @@ relocatable default prefix `/LocalDeveloper`.
 
 - Contain no headers or product archives. Every demo includes its source,
   target build script and a target-built i386 executable.
-- SDL includes the port smoke plus upstream `testgl2`, `testspriteminimal`,
+- SDL includes the port smoke, a Mesa 1.2-compatible official fixed-function
+  `testgl11cube`, plus upstream `testspriteminimal`,
   `testmultiaudio`, `testthread` and `testtimer` consumers.
 - Mesa includes the OSMesa example and the original OPENSTEP MesaView source,
   nib resources and executable.

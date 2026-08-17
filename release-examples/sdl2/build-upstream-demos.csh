@@ -7,7 +7,7 @@ set common = "$root/Support/SDL_test_common.c $root/Support/SDL_test_font.c $roo
 set flags = "-m486 -arch i386 -D__OPENSTEP__ -I$prefix/Headers -I$prefix/Headers/SDL2 -I$root/Upstream -I$root/Support"
 set libs = "$prefix/Libraries/libSDL2.a -L$prefix/Libraries -lGL -lm -framework AppKit -framework Foundation -framework SoundKit"
 
-cc $flags $root/Upstream/testgl2.c $common $libs -o testgl2
+cc $flags -DHAVE_OPENGL $root/Upstream/testgl11cube.c $common $libs -o testgl11cube
 if ($status != 0) exit 1
 cc $flags $root/Upstream/testspriteminimal.c $root/Upstream/testutils.c $libs -o testspriteminimal
 if ($status != 0) exit 1
@@ -17,4 +17,4 @@ cc $flags $root/Upstream/testthread.c $common $root/Support/SDL_test_log.c $libs
 if ($status != 0) exit 1
 cc $flags $root/Upstream/testtimer.c $common $root/Support/SDL_test_assert.c $root/Support/SDL_test_log.c $libs -o testtimer
 if ($status != 0) exit 1
-echo "build-upstream-demos: PASS testgl2 testspriteminimal testmultiaudio testthread testtimer"
+echo "build-upstream-demos: PASS testgl11cube testspriteminimal testmultiaudio testthread testtimer"

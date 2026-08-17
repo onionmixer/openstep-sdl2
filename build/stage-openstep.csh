@@ -20,7 +20,7 @@ if (! -r $source_root/upstream/MesaLib-3.4.2.tar.gz) then
     echo "stage-openstep: missing verified MesaLib-3.4.2 archive"
     exit 2
 endif
-if (! -r $source_root/packaging/openstep/build-split-packages.csh || ! -r $source_root/packaging/openstep/OpenStepSDL2Libraries.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Demos.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.pre_install || ! -r $source_root/packaging/openstep/OpenStepSDL2Demos.pre_install || ! -r $source_root/release-docs/README.OPENSTEP || ! -r $source_root/release-examples/sdl2/sdl2_clear.c || ! -r $source_root/release-examples/sdl2/build-upstream-demos.csh || ! -r $source_root/port/openstep/src/cpuinfo/SDL_openstepcpuinfo.c) then
+if (! -r $source_root/packaging/openstep/build-split-packages.csh || ! -r $source_root/packaging/openstep/OpenStepSDL2Libraries.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Demos.info || ! -r $source_root/packaging/openstep/OpenStepSDL2Headers.pre_install || ! -r $source_root/packaging/openstep/OpenStepSDL2Demos.pre_install || ! -r $source_root/release-docs/README.OPENSTEP || ! -r $source_root/release-examples/sdl2/sdl2_clear.c || ! -r $source_root/release-examples/sdl2/build-upstream-demos.csh || ! -r $source_root/test/upstream/SDL-2.0.0-testgl2.c || ! -r $source_root/port/openstep/src/cpuinfo/SDL_openstepcpuinfo.c) then
     echo "stage-openstep: missing SDL2 Installer packaging source"
     exit 2
 endif
@@ -79,6 +79,15 @@ if (! -d $stage_root/test/openstep) mkdir $stage_root/test/openstep
 cp $source_root/test/openstep/* $stage_root/test/openstep/
 if ($status != 0) then
     echo "stage-openstep: OPENSTEP smoke test copy failed"
+    rm -f $stage_archive
+    exit 1
+endif
+# The compatible GL 1.1 cube demo is retained separately from the current
+# upstream test tree.  It is copied explicitly for the Demos package.
+if (! -d $stage_root/test/upstream) mkdir $stage_root/test/upstream
+cp $source_root/test/upstream/SDL-2.0.0-testgl2.c $stage_root/test/upstream/
+if ($status != 0) then
+    echo "stage-openstep: compatible GL demo source copy failed"
     rm -f $stage_archive
     exit 1
 endif

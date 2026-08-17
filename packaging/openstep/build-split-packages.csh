@@ -64,7 +64,8 @@ cc -m486 -o $dpay/Tools/OpenStepSDL2Demos-Intel $marksrc
 if ($status != 0) exit 1
 chmod 555 $dpay/Tools/OpenStepSDL2Demos-Intel
 cp $src/release-examples/sdl2/* $dpay/Examples/OpenStep-SDL2-2.32.10/
-cp $src/upstream/SDL-2.32.10/test/testgl2.c $src/upstream/SDL-2.32.10/test/testspriteminimal.c $src/upstream/SDL-2.32.10/test/testmultiaudio.c $src/upstream/SDL-2.32.10/test/testthread.c $src/upstream/SDL-2.32.10/test/testtimer.c $src/upstream/SDL-2.32.10/test/testutils.c $src/upstream/SDL-2.32.10/test/testutils.h $src/upstream/SDL-2.32.10/test/icon.bmp $src/upstream/SDL-2.32.10/test/sample.wav $dpay/Examples/OpenStep-SDL2-2.32.10/Upstream/
+cp $src/test/upstream/SDL-2.0.0-testgl2.c $dpay/Examples/OpenStep-SDL2-2.32.10/Upstream/testgl11cube.c
+cp $src/upstream/SDL-2.32.10/test/testspriteminimal.c $src/upstream/SDL-2.32.10/test/testmultiaudio.c $src/upstream/SDL-2.32.10/test/testthread.c $src/upstream/SDL-2.32.10/test/testtimer.c $src/upstream/SDL-2.32.10/test/testutils.c $src/upstream/SDL-2.32.10/test/testutils.h $src/upstream/SDL-2.32.10/test/icon.bmp $src/upstream/SDL-2.32.10/test/sample.wav $dpay/Examples/OpenStep-SDL2-2.32.10/Upstream/
 cp $src/upstream/SDL-2.32.10/src/test/SDL_test_common.c $src/upstream/SDL-2.32.10/src/test/SDL_test_assert.c $src/upstream/SDL-2.32.10/src/test/SDL_test_log.c $src/upstream/SDL-2.32.10/src/test/SDL_test_font.c $src/upstream/SDL-2.32.10/src/test/SDL_test_memory.c $src/upstream/SDL-2.32.10/src/test/SDL_test_crc32.c $dpay/Examples/OpenStep-SDL2-2.32.10/Support/
 chmod 555 $dpay/Examples/OpenStep-SDL2-2.32.10/build-sdl2-clear.csh
 chmod 555 $dpay/Examples/OpenStep-SDL2-2.32.10/build-upstream-demos.csh
@@ -75,10 +76,12 @@ if ($status != 0) then
 endif
 chmod 555 $dpay/Examples/OpenStep-SDL2-2.32.10/sdl2_clear
 set demodir = $dpay/Examples/OpenStep-SDL2-2.32.10
+cp $demodir/Upstream/icon.bmp $demodir/icon.bmp
+cp $demodir/Upstream/sample.wav $demodir/sample.wav
 set common = "$demodir/Support/SDL_test_common.c $demodir/Support/SDL_test_font.c $demodir/Support/SDL_test_memory.c $demodir/Support/SDL_test_crc32.c"
 set flags = "-m486 -arch i386 -D__OPENSTEP__ -I$hpay/Headers -I$hpay/Headers/SDL2 -I$demodir/Upstream -I$demodir/Support"
 set libraries = "$out/libSDL2.a -L$work/mesa/Mesa-3.4.2/lib -lGL -lm -framework AppKit -framework Foundation -framework SoundKit"
-cc $flags $demodir/Upstream/testgl2.c $common $libraries -o $demodir/testgl2
+cc $flags -DHAVE_OPENGL $demodir/Upstream/testgl11cube.c $common $libraries -o $demodir/testgl11cube
 if ($status != 0) exit 1
 cc $flags $demodir/Upstream/testspriteminimal.c $demodir/Upstream/testutils.c $libraries -o $demodir/testspriteminimal
 if ($status != 0) exit 1
@@ -88,8 +91,8 @@ cc $flags $demodir/Upstream/testthread.c $common $demodir/Support/SDL_test_log.c
 if ($status != 0) exit 1
 cc $flags $demodir/Upstream/testtimer.c $common $demodir/Support/SDL_test_assert.c $demodir/Support/SDL_test_log.c $libraries -o $demodir/testtimer
 if ($status != 0) exit 1
-chmod 555 $demodir/sdl2_clear $demodir/testgl2 $demodir/testspriteminimal $demodir/testmultiaudio $demodir/testthread $demodir/testtimer
-foreach demo ( $demodir/sdl2_clear $demodir/testgl2 $demodir/testspriteminimal $demodir/testmultiaudio $demodir/testthread $demodir/testtimer )
+chmod 555 $demodir/sdl2_clear $demodir/testgl11cube $demodir/testspriteminimal $demodir/testmultiaudio $demodir/testthread $demodir/testtimer
+foreach demo ( $demodir/sdl2_clear $demodir/testgl11cube $demodir/testspriteminimal $demodir/testmultiaudio $demodir/testthread $demodir/testtimer )
     file $demo | grep 'architecture i386' > /dev/null
     if ($status != 0) then
         echo "build-sdl2-split: demo is not i386 Mach-O: $demo"
