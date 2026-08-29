@@ -19,6 +19,13 @@ require() {
 stage="$root/build/stage-openstep.csh"
 closure="$root/build/link-sdl-init-closure-gate.csh"
 archive="$root/build/build-sdl2-openstep-diagnostic-archive.csh"
+# Archive creation was delegated to the short-member assembler, so the
+# archive name and the object-member names live there now while the gate
+# script names stayed behind.  This check looked for all seven in the old
+# file and had been failing ever since -- and it is the third statement of
+# rebuild-openstep-sdl2-release-archive.sh, which runs under set -e, so
+# the rebuild helper could not reach the target at all.
+assemble="$root/build/assemble-sdl2-openstep-diagnostic-archive.csh"
 report="$root/build/report-sdl2-openstep-manifest.csh"
 final_check="$root/build/check-final-api-manifest.csh"
 release_archive="$root/build/build-sdl2-openstep-release-archive.csh"
@@ -65,13 +72,13 @@ require "$closure" 'compile-sdl-shape-gate.csh'
 require "$closure" 'SDL-shape-gate.o'
 require "$closure" 'compile-sdl-hidapi-fallback-gate.csh'
 require "$closure" 'SDL-hidapi-fallback-gate.o'
-require "$archive" 'libSDL2-diagnostic.a'
+require "$assemble" 'libSDL2-diagnostic.a'
 require "$archive" 'compile-sdl-bmp-gate.csh'
-require "$archive" 'SDL-bmp-gate.o'
+require "$assemble" 'SDL-bmp-gate.o'
 require "$archive" 'compile-sdl-shape-gate.csh'
-require "$archive" 'SDL-shape-gate.o'
+require "$assemble" 'SDL-shape-gate.o'
 require "$archive" 'compile-sdl-hidapi-fallback-gate.csh'
-require "$archive" 'SDL-hidapi-fallback-gate.o'
+require "$assemble" 'SDL-hidapi-fallback-gate.o'
 require "$report" 'NONRELEASE'
 require "$final_check" 'short final members'
 require "$release_archive" 'check-final-api-manifest.csh'

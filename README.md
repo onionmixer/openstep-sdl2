@@ -26,10 +26,39 @@ prefix (normally `/LocalDeveloper`):
   and i386 demo binaries.
 
 All three packages have been installed and their installed demo source has
-been rebuilt using only `/LocalDeveloper` headers and libraries.  Runtime demo
-coverage and Installer deletion isolation remain release gates; therefore no
-GitHub Release asset or tag is claimed yet.  The detailed contract is
+been rebuilt using only `/LocalDeveloper` headers and libraries.  The detailed
+contract is
 [release-packaging/SPLIT_PACKAGE_CONTRACT.md](release-packaging/SPLIT_PACKAGE_CONTRACT.md).
+
+**Latest release: `v2.32.10-openstep.2`** —
+[release notes](RELEASE_NOTES_v2.32.10-openstep.2.md).
+
+## Accelerated OpenGL on a Matrox G450
+
+With the accelerated Mesa from the
+[Matrox G450 driver](https://github.com/onionmixer/openstep-matrox-remade),
+the card draws and the frame need never enter system memory.  An application
+hands SDL2 the driver's present functions once:
+
+```c
+#include <SDL_openstepglpresent.h>
+
+static const SDL_OpenStepGLPresent hooks = {
+    SDL_OPENSTEP_GLPRESENT_ABI, sizeof(hooks),
+    OSMGAMesaBufferOrigin, OSMGAMesaBufferPresentMode,
+    OSMGAMesaBufferPresentRect
+};
+SDL_SetWindowData(window, SDL_OPENSTEP_GLPRESENT_KEY, (void *)&hooks);
+```
+
+and its draw/swap loop does not change.  A spinning teapot at 800x600 runs at
+**43.9 frames a second** instead of 0.54.
+
+It is opt-in, and stays opt-in for two reasons: `libSDL2.a` must keep linking
+against a stock Mesa, where those functions do not exist; and a direct present
+is not compositing, so registering changes who owns a piece of the screen.
+A program that registers nothing behaves exactly as it did.  No public SDL
+symbol was added — the archive still exports exactly 836.
 
 ## Intended layout
 

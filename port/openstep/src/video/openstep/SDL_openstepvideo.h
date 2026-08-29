@@ -45,6 +45,16 @@ typedef struct SDL_OpenStepWindowData
     float fullscreen_restore_content_h;
     void *gl_contexts;
     SDL_bool presenting;
+    /*
+     * The direct video-memory stamp (SDL_openstepglpresent.h).  Kept as a
+     * void * because the contract header is the application's, not the SDL
+     * core's, and nothing outside the backend dereferences it.
+     */
+    void *gl_present;           /* the registered hooks, once validated */
+    SDL_bool gl_stamping;       /* this window owns a screen rectangle */
+    SDL_bool gl_stamp_barred;   /* refused for good; never try again */
+    int gl_stamp_last_x;        /* where it was last frame, to catch a drag */
+    int gl_stamp_last_y;
     SDL_bool has_restore_frame;
     SDL_bool has_fullscreen_restore_frame;
 } SDL_OpenStepWindowData;

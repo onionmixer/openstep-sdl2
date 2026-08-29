@@ -143,6 +143,7 @@ cp $source_root/upstream/SDL-2.32.10/src/video/yuv2rgb/*.c $build_root/src/video
 cp $source_root/upstream/SDL-2.32.10/src/video/SDL_sysvideo.h $build_root/src/video/
 cp $source_root/upstream/SDL-2.32.10/src/video/SDL_vulkan_internal.h $build_root/src/video/
 cp $source_root/port/openstep/src/video/openstep/SDL_openstepvideo.h $build_root/src/video/openstep/
+cp $source_root/port/openstep/src/video/openstep/SDL_openstepglpresent.h $build_root/src/video/openstep/
 cp $source_root/port/openstep/src/video/openstep/SDL_openstepvideo.m $build_root/src/video/openstep/
 cp $source_root/upstream/SDL-2.32.10/src/atomic/SDL_atomic.c $build_root/src/atomic/
 cp $source_root/upstream/SDL-2.32.10/src/atomic/SDL_spinlock.c $build_root/src/atomic/

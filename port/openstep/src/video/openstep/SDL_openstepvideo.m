@@ -14,6 +14,7 @@
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_windowevents_c.h"
 #include "SDL_openstepvideo.h"
+#include "SDL_openstepglpresent.h"
 
 #define OPENSTEPVID_DRIVER_NAME "openstep"
 
@@ -56,6 +57,21 @@ static int OPENSTEP_GL_SetSwapInterval(_THIS, int interval);
 static int OPENSTEP_GL_GetSwapInterval(_THIS);
 static int OPENSTEP_GL_SwapWindow(_THIS, SDL_Window *window);
 static void OPENSTEP_GL_DeleteContext(_THIS, SDL_GLContext context);
+/*
+ * ONE STAMP OWNER PER PROCESS, and the driver is the reason.
+ *
+ * Its surface and its present flag are file statics over there -- one
+ * mapped surface, one application array, one mode -- so turning the mode on
+ * changes the whole process, not one window.  Two windows stamping would
+ * each believe they owned a rectangle and the second would deliver the
+ * first's picture.  So the backend keeps the lease itself.
+ */
+static SDL_Window *openstep_stamp_owner;
+
+/* The direct video-memory stamp, whose lease every one of these must end.
+ * Declared here because the lifecycle sites come before the definitions. */
+static void OPENSTEP_GL_StampRelease(SDL_Window *window);
+static void OPENSTEP_GL_StampReleaseOwner(void);
 static void OPENSTEP_GL_DefaultProfileConfig(_THIS, int *mask, int *major, int *minor);
 static int OPENSTEP_RebuildNativeWindow(_THIS, SDL_Window *window);
 static SDL_Cursor *OPENSTEP_CreateDefaultCursor(void);
@@ -918,14 +934,28 @@ static SDL_bool OPENSTEP_DropEventsEnabled(void)
 }
 - (void)drawRect:(NSRect)rect
 {
-    if (_bitmap != nil) {
+    SDL_OpenStepWindowData *data = (_sdl_window && _sdl_window->driverdata)
+        ? (SDL_OpenStepWindowData *)_sdl_window->driverdata : NULL;
+
+    /*
+     * NOT WHILE A STAMP OWNS THIS RECTANGLE.
+     *
+     * When the GL frame goes to the screen directly from video memory, this
+     * bitmap stops being updated -- so drawing it here would paint a stale
+     * picture, or on the very first expose an empty one, straight over the
+     * live frame.  The next swap stamps again and the window comes back,
+     * which makes it a flicker rather than a wrong picture, and that is
+     * still the loudest thing this backend can do wrong.
+     *
+     * `presenting` is NOT this flag and must not be reused for it: it means
+     * "SDL is mid-present, do not send an expose event", which is a
+     * different question with a different answer.
+     */
+    if (_bitmap != nil && !(data && data->gl_stamping)) {
         [_bitmap drawInRect:[self bounds]];
     }
-    if (_sdl_window && _sdl_window->driverdata) {
-        SDL_OpenStepWindowData *data = (SDL_OpenStepWindowData *)_sdl_window->driverdata;
-        if (!data->presenting) {
-            SDL_SendWindowEvent(_sdl_window, SDL_WINDOWEVENT_EXPOSED, 0, 0);
-        }
+    if (data && !data->presenting) {
+        SDL_SendWindowEvent(_sdl_window, SDL_WINDOWEVENT_EXPOSED, 0, 0);
     }
 }
 - (void)resetCursorRects
@@ -1612,6 +1642,10 @@ static void OPENSTEP_SetWindowSize(_THIS, SDL_Window *window)
     NSRect frame;
 
     (void)_this;
+    /* The driver's surface is one size.  A resized window's rectangle no
+     * longer describes it, so the lease ends here and the next swap decides
+     * again against the new size. */
+    OPENSTEP_GL_StampRelease(window);
     if (!data || !data->window || [NSScreen mainScreen] == nil) return;
     native_window = (NSWindow *)data->window;
     frame = OPENSTEP_FrameForContent(window, native_window, window->x, window->y,
@@ -1936,6 +1970,10 @@ static void OPENSTEP_DestroyWindow(_THIS, SDL_Window *window)
     SDL_OpenStepWindowData *data = (SDL_OpenStepWindowData *)window->driverdata;
     NSWindow *native_window;
 
+    /* Before anything else: a lease outliving its window would leave the
+     * driver in present mode with nobody to turn it off, and the next
+     * window's first swap would deliver a stale array. */
+    OPENSTEP_GL_StampRelease(window);
     if (!data) {
         return;
     }
@@ -2008,8 +2046,26 @@ static int OPENSTEP_CreateWindowFramebuffer(_THIS, SDL_Window *window,
     return 0;
 }
 
-static int OPENSTEP_UpdateWindowFramebuffer(_THIS, SDL_Window *window,
-                                            const SDL_Rect *rects, int numrects)
+/*
+ * Move a 32-bit ARGB source into the window's 24-bit presentation bitmap.
+ *
+ * WHOSE ROW ZERO IS THE TOP is the caller's business, and it is an argument
+ * rather than window state on purpose: a window's two sources disagree, and
+ * a remembered flag goes stale across a swap, a context change or a resize.
+ *
+ *   SDL surfaces      top-down, so row y goes to h-1-y
+ *   an OSMesa buffer  bottom-up (its yup default), so row y goes to row y
+ *
+ * The presentation bitmap is bottom-up either way; only where the rows are
+ * read from changes.  The GL path used to ask OSMesa to write top-down
+ * instead, with OSMesaPixelStore(OSMESA_Y_UP, 0), which flipped twice to the
+ * same picture -- and cost the Matrox driver's accelerated surface, because
+ * that path cannot reverse a row order and gives the surface back rather
+ * than draw the wrong way up.
+ */
+static int OPENSTEP_PresentFramebuffer(_THIS, SDL_Window *window,
+                                       const SDL_Rect *rects, int numrects,
+                                       SDL_bool reverse_rows)
 {
     SDL_OpenStepWindowData *data = (SDL_OpenStepWindowData *)window->driverdata;
     SDL_Rect full_rect;
@@ -2037,7 +2093,8 @@ static int OPENSTEP_UpdateWindowFramebuffer(_THIS, SDL_Window *window,
         if (left >= right || top >= bottom) continue;
         for (y = top; y < bottom; ++y) {
             Uint32 *source = (Uint32 *)((Uint8 *)data->framebuffer_pixels + y * data->framebuffer_pitch);
-            Uint8 *target = (Uint8 *)data->present_pixels + ((window->h - 1 - y) * window->w + left) * 3;
+            int drow = reverse_rows ? (window->h - 1 - y) : y;
+            Uint8 *target = (Uint8 *)data->present_pixels + (drow * window->w + left) * 3;
             for (x = left; x < right; ++x) {
                 Uint32 pixel = source[x];
                 *target++ = (Uint8)(pixel >> 16);
@@ -2050,6 +2107,16 @@ static int OPENSTEP_UpdateWindowFramebuffer(_THIS, SDL_Window *window,
     [(SDL_OpenStepView *)data->view displayRect:[(NSView *)data->view bounds]];
     data->presenting = SDL_FALSE;
     return 0;
+}
+
+/*
+ * The SDL callback keeps its signature; SDL surfaces are top-down, so this
+ * is the reversing form.
+ */
+static int OPENSTEP_UpdateWindowFramebuffer(_THIS, SDL_Window *window,
+                                            const SDL_Rect *rects, int numrects)
+{
+    return OPENSTEP_PresentFramebuffer(_this, window, rects, numrects, SDL_TRUE);
 }
 
 static void OPENSTEP_DestroyWindowFramebuffer(_THIS, SDL_Window *window)
@@ -2120,16 +2187,36 @@ static int OPENSTEP_GL_BindBuffer(SDL_OpenStepGLContext *context,
             SDL_free(pixels);
             return SDL_SetError("OPENSTEP OSMesa could not bind its RGBA buffer");
         }
-        OSMesaPixelStore(OSMESA_Y_UP, 0);
+        /*
+         * BOTTOM-UP, said rather than assumed.
+         *
+         * This asked for 0 -- top-down -- and the present copy then reversed
+         * it, so the picture was flipped twice.  It also ended the Matrox
+         * driver's substitution on every bind: that path cannot reverse rows,
+         * so Mesa's guard hands the video-memory surface back rather than
+         * draw upside down.  Measured: the surface was claimed and released
+         * inside SDL_CreateWindow, every time.
+         *
+         * Set explicitly and after every successful bind, because yup is
+         * CONTEXT state rather than bind state -- Mesa's creation default
+         * happens to be GL_TRUE, and relying on that would leave a later
+         * rebind carrying whatever was there before.
+         */
+        OSMesaPixelStore(OSMESA_Y_UP, 1);
         SDL_free(context->pixels);
         context->pixels = pixels;
         context->pixels_size = pixels_size;
         context->width = window->w;
         context->height = window->h;
-    } else if (!OSMesaMakeCurrent(context->context, context->pixels,
-                                  GL_UNSIGNED_BYTE, context->width,
-                                  context->height)) {
-        return SDL_SetError("OPENSTEP OSMesa could not make its context current");
+    } else {
+        if (!OSMesaMakeCurrent(context->context, context->pixels,
+                               GL_UNSIGNED_BYTE, context->width,
+                               context->height)) {
+            return SDL_SetError("OPENSTEP OSMesa could not make its context current");
+        }
+        /* The rebind path needs it too: yup is context state, and this
+         * context may have been left with something else. */
+        OSMesaPixelStore(OSMESA_Y_UP, 1);
     }
     if (context->window_data != data) {
         OPENSTEP_GL_RemoveContext(context);
@@ -2263,7 +2350,20 @@ static int OPENSTEP_GL_MakeCurrent(_THIS, SDL_Window *window,
     SDL_OpenStepGLContext *gl_context = (SDL_OpenStepGLContext *)context;
 
     (void)_this;
+    /*
+     * ANY change of what is current ends the lease.
+     *
+     * The driver's surface, its application array and its present flag are
+     * one set for the whole process, so a lease is only ever meaningful
+     * while the context that drew into that surface is the current one.
+     * Pointing GL somewhere else -- another window, another context, or
+     * nothing -- and leaving present mode on would have the next swap stamp
+     * a surface that is no longer the one being drawn.
+     */
+    if (openstep_stamp_owner && openstep_stamp_owner != window)
+        OPENSTEP_GL_StampReleaseOwner();
     if (!gl_context) {
+        OPENSTEP_GL_StampReleaseOwner();
         gl_make_current(NULL, NULL);
         return 0;
     }
@@ -2293,6 +2393,209 @@ static int OPENSTEP_GL_GetSwapInterval(_THIS)
     return 0;
 }
 
+
+/*
+ * The registered hooks, or NULL, having been checked rather than trusted.
+ *
+ * The ABI word alone would not be enough: a struct that grows leaves an
+ * older registration SHORTER than this file believes, so every field is
+ * confirmed to lie inside the size the registration declared before it is
+ * read.  A short struct, a wrong ABI or a missing entry all mean "no
+ * stamping", never a crash.
+ */
+static const SDL_OpenStepGLPresent *
+OPENSTEP_GL_PresentHooks(SDL_Window *window)
+{
+    const SDL_OpenStepGLPresent *h;
+
+    if (!window) return NULL;
+    h = (const SDL_OpenStepGLPresent *)
+            SDL_GetWindowData(window, SDL_OPENSTEP_GLPRESENT_KEY);
+    if (!h) return NULL;
+    if (h->abi != SDL_OPENSTEP_GLPRESENT_ABI) return NULL;
+    if (h->size < sizeof(SDL_OpenStepGLPresent)) return NULL;
+    if (!h->surface_origin || !h->set_present_mode || !h->present_rect)
+        return NULL;
+    return h;
+}
+
+/* Whoever holds it.  Used where the window that held it is not to hand, or
+ * where any lease at all would be wrong -- a context going away, a context
+ * being pointed at a different window. */
+static void
+OPENSTEP_GL_StampReleaseOwner(void)
+{
+    if (openstep_stamp_owner)
+        OPENSTEP_GL_StampRelease(openstep_stamp_owner);
+}
+
+/* Give the screen rectangle back, and with it the driver's present mode --
+ * which also leaves the caller's array refreshed, so the ordinary AppKit
+ * path has a picture to draw the moment it takes over. */
+static void
+OPENSTEP_GL_StampRelease(SDL_Window *window)
+{
+    SDL_OpenStepWindowData *data;
+    const SDL_OpenStepGLPresent *h;
+
+    if (!window) return;
+    data = (SDL_OpenStepWindowData *)window->driverdata;
+    if (!data || !data->gl_stamping) return;
+    h = (const SDL_OpenStepGLPresent *)data->gl_present;
+    if (h) h->set_present_mode(0);
+    data->gl_stamping = SDL_FALSE;
+    data->gl_present = NULL;
+    if (openstep_stamp_owner == window) openstep_stamp_owner = NULL;
+}
+
+/*
+ * Put this window's frame on the screen without it crossing the bus.
+ *
+ * Returns SDL_TRUE if the screen now holds the frame.  SDL_FALSE means the
+ * caller must deliver the ordinary way, and the ordinary way is always
+ * correct -- every guard here stands the stamp down rather than risking a
+ * rectangle that is not this window's.
+ */
+typedef struct {
+    unsigned long srcX, srcY;
+    long dstX, dstY;
+    long w, h;
+} OPENSTEP_StampRect;
+
+static SDL_bool
+OPENSTEP_GL_StampArm(_THIS, SDL_Window *window, OPENSTEP_StampRect *out)
+{
+    SDL_OpenStepWindowData *data = (SDL_OpenStepWindowData *)window->driverdata;
+    const SDL_OpenStepGLPresent *h;
+    SDL_DisplayMode mode;
+    Uint32 flags;
+    int wx = 0, wy = 0;
+    long dstX, dstY;
+    long pw, ph;
+    unsigned long srcX = 0UL, srcY = 0UL;
+
+    if (!data || data->gl_stamp_barred) return SDL_FALSE;
+
+    h = OPENSTEP_GL_PresentHooks(window);
+    if (!h) { OPENSTEP_GL_StampRelease(window); return SDL_FALSE; }
+
+    /* No surface in video memory means nothing to stamp -- this is where a
+     * software Mesa, and an accelerated one that has fallen back, land. */
+    if (h->surface_origin() == 0UL) {
+        OPENSTEP_GL_StampRelease(window);
+        return SDL_FALSE;
+    }
+
+    /* The lease.  A second window does not take it from the first. */
+    if (openstep_stamp_owner && openstep_stamp_owner != window)
+        return SDL_FALSE;
+
+    flags = SDL_GetWindowFlags(window);
+    /*
+     * A STAMP IS NOT COMPOSITING.  The window server does not know these
+     * pixels exist, so the rectangle lands on top of whatever overlaps it.
+     * Focus is the only cheap proxy for "this window is the one in front",
+     * and it is an imperfect one: a menu or a panel can cover the rectangle
+     * without taking focus.  So this owns the screen only while it is
+     * plainly the window in use, and hands back otherwise.
+     */
+    if ((flags & SDL_WINDOW_MINIMIZED) || !(flags & SDL_WINDOW_SHOWN) ||
+        !(flags & SDL_WINDOW_INPUT_FOCUS)) {
+        OPENSTEP_GL_StampRelease(window);
+        return SDL_FALSE;
+    }
+    if (SDL_GetDesktopDisplayMode(0, &mode) != 0) return SDL_FALSE;
+
+    SDL_GetWindowPosition(window, &wx, &wy);
+    /*
+     * MOVED SINCE LAST FRAME: stand down for one frame.  SDL's position is
+     * a cache updated when a move event is dispatched, so during a drag it
+     * lags the server -- and a stamp at a stale position lands on somebody
+     * else's window.  Skipping while it changes is the answer available
+     * here; it does not remove the lag, it declines to paint through it.
+     */
+    if (wx != data->gl_stamp_last_x || wy != data->gl_stamp_last_y) {
+        data->gl_stamp_last_x = wx;
+        data->gl_stamp_last_y = wy;
+        return SDL_FALSE;
+    }
+
+    /* SDL's window position already counts from the top of the screen: the
+     * backend converts to AppKit's bottom-left origin when it places the
+     * window, so the scanout destination needs no flip of its own. */
+    dstX = (long)wx;
+    dstY = (long)wy;
+    pw = (long)window->w;
+    ph = (long)window->h;
+    if (dstX < 0) { srcX = (unsigned long)(-dstX); pw += dstX; dstX = 0; }
+    if (dstY < 0) { srcY = (unsigned long)(-dstY); ph += dstY; dstY = 0; }
+    if (dstY + ph > (long)mode.h) ph = (long)mode.h - dstY;
+    if (dstX + pw > (long)mode.w) pw = (long)mode.w - dstX;
+    if (pw <= 0 || ph <= 0) return SDL_FALSE;
+
+    if (!data->gl_stamping) {
+        h->set_present_mode(1);
+        data->gl_present = (void *)h;
+        data->gl_stamping = SDL_TRUE;
+        openstep_stamp_owner = window;
+    }
+
+    out->srcX = srcX; out->srcY = srcY;
+    out->dstX = dstX; out->dstY = dstY;
+    out->w = pw;      out->h = ph;
+    return SDL_TRUE;
+}
+
+/*
+ * ROW BY ROW, IN REVERSE, and it is the row order that forces it.
+ *
+ * The accelerated surface is written bottom-up -- Mesa's OSMESA_Y_UP, which
+ * the driver requires of an accelerated context -- while the screen is
+ * scanned top-down, so a single blit of the whole rectangle arrives upside
+ * down.  The demo that proved this path could swap its own projection
+ * instead; a LIBRARY cannot, because the projection belongs to the
+ * application.
+ *
+ * So the flip happens here, a row at a time.  Measured at 800x600: 8.01 ms
+ * against 3.69 for one blit -- one kernel entry costs 7.21 us -- which is
+ * 43.72 frames a second against 54.60, and against 0.54 for the readback
+ * this replaces.  Four fifths of the best possible, for no driver change.
+ *
+ * One blit becomes possible if the driver's present ever learns to walk its
+ * source upward.  That is recorded as an option and NOT assumed: the sign
+ * bit it would need is used in that driver for overlap ordering, where
+ * source and destination both walk up and nothing is mirrored.
+ *
+ * Runs AFTER the flush, so the card has finished drawing what it stamps.
+ */
+static SDL_bool
+OPENSTEP_GL_StampRun(SDL_Window *window, const OPENSTEP_StampRect *r)
+{
+    SDL_OpenStepWindowData *data = (SDL_OpenStepWindowData *)window->driverdata;
+    const SDL_OpenStepGLPresent *h = (const SDL_OpenStepGLPresent *)data->gl_present;
+    unsigned long verdict = 0UL;
+    long row;
+
+    for (row = 0; row < r->h; row++) {
+        if (h->present_rect(r->srcX, r->srcY + (unsigned long)row,
+                            (unsigned long)r->w, 1UL,
+                            r->dstX, r->dstY + (r->h - 1 - row),
+                            &verdict) != 0) {
+            /*
+             * A refusal is a state change, not a log line, and which
+             * refusal it was decides for how long.  Busy is this frame;
+             * a destination that left the screen is until it comes back;
+             * anything else the next frame cannot fix, so it bars this
+             * window rather than failing once a frame forever.
+             */
+            if (verdict != 5UL /* E_BUSY */ && verdict != 3UL /* E_DST */)
+                data->gl_stamp_barred = SDL_TRUE;
+            return SDL_FALSE;
+        }
+    }
+    return SDL_TRUE;
+}
+
 static int OPENSTEP_GL_SwapWindow(_THIS, SDL_Window *window)
 {
     SDL_OpenStepWindowData *data = (SDL_OpenStepWindowData *)window->driverdata;
@@ -2300,18 +2603,58 @@ static int OPENSTEP_GL_SwapWindow(_THIS, SDL_Window *window)
     void *saved_pixels;
     int saved_pitch;
     int result;
+    OPENSTEP_StampRect rect;
+    SDL_bool armed;
 
     context = OPENSTEP_GL_CurrentWindowContext(data, window);
     if (!context) {
         return SDL_SetError("OPENSTEP OSMesa context is not current for this window");
     }
+
+    /*
+     * THE PATH IS CHOSEN BEFORE glFinish, and the order is not cosmetic.
+     *
+     * Leaving the driver's present mode is what refreshes the caller's
+     * array, and the refresh happens at the next flush.  Decide after the
+     * flush and a window falling back would deliver whatever the array held
+     * when the stamping began -- usually its first frame, sometimes nothing
+     * -- with no error anywhere.
+     */
+    armed = OPENSTEP_GL_StampArm(_this, window, &rect);
+
+    /*
+     * And the flush comes between the two halves, doing two jobs at once:
+     * it finishes the drawing the stamp is about to copy, and -- when
+     * arming just left present mode -- it is the flush at which the driver
+     * mirrors the surface back, so the AppKit path below has a picture.
+     */
     glFinish();
+
+    if (armed && OPENSTEP_GL_StampRun(window, &rect))
+        return 0;
+
+    /*
+     * The stamp was refused after arming.  The caller's array is stale
+     * because present mode was on, so hand the rectangle back and flush
+     * once more to have the surface mirrored into it -- otherwise this
+     * frame would deliver whatever the array held before the stamping
+     * started.  Only ever costs anything on a refusal.
+     */
+    if (armed) {
+        OPENSTEP_GL_StampRelease(window);
+        glFinish();
+    }
+
     if (OPENSTEP_GL_EnsurePresentation(_this, window) < 0) return -1;
     saved_pixels = data->framebuffer_pixels;
     saved_pitch = data->framebuffer_pitch;
     data->framebuffer_pixels = context->pixels;
     data->framebuffer_pitch = context->width * 4;
-    result = OPENSTEP_UpdateWindowFramebuffer(_this, window, NULL, 0);
+    /*
+     * NOT reversed: OSMesa writes bottom-up now (see the bind below), which
+     * is the direction the presentation bitmap already wants.
+     */
+    result = OPENSTEP_PresentFramebuffer(_this, window, NULL, 0, SDL_FALSE);
     data->framebuffer_pixels = saved_pixels;
     data->framebuffer_pitch = saved_pitch;
     return result;
@@ -2322,6 +2665,10 @@ static void OPENSTEP_GL_DeleteContext(_THIS, SDL_GLContext context)
     SDL_OpenStepGLContext *gl_context = (SDL_OpenStepGLContext *)context;
 
     (void)_this;
+    /* This backend does not record which context a lease was taken under,
+     * so a context going away ends any lease.  Conservative on purpose:
+     * the cost is one window deciding again on its next swap. */
+    OPENSTEP_GL_StampReleaseOwner();
     if (!gl_context) return;
     if (OSMesaGetCurrentContext() == gl_context->context) {
         gl_make_current(NULL, NULL);

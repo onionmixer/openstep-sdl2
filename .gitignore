@@ -7,3 +7,4 @@ stage/
 *.tar.Z
 *~
 .DS_Store
+release-assets/

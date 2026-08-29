@@ -53,6 +53,14 @@ cp $out/include/*.h $hpay/Headers/SDL2/
 foreach foreign ( SDL_config_android.h SDL_config_emscripten.h SDL_config_iphoneos.h SDL_config_macosx.h SDL_config_minimal.h SDL_config_ngage.h SDL_config_os2.h SDL_config_pandora.h SDL_config_windows.h SDL_config_wingdk.h SDL_config_winrt.h SDL_config_xbox.h )
     rm -f $hpay/Headers/SDL2/$foreign
 end
+#
+# The OPENSTEP port's own extension header, which is NOT one of SDL's public
+# headers and deliberately not in include/: it declares no SDL function, only
+# the struct an application fills in to hand this port a faster way to put a
+# GL frame on the screen.  Keeping it out of include/ keeps it out of the
+# public-API manifest; copying it here is what lets an application include it.
+#
+cp $src/port/openstep/src/video/openstep/SDL_openstepglpresent.h $hpay/Headers/SDL2/
 cp $src/release-docs/* $hpay/Documentation/OpenStep-SDL2-2.32.10/
 cp $src/upstream/SDL-2.32.10/LICENSE.txt $hpay/Documentation/OpenStep-SDL2-2.32.10/LICENSE.txt
 
