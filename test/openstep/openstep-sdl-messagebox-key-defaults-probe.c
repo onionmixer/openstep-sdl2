@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     int selected = -99;
 
     if (argc > 1 && argv[1][0] == 'e') expected = 72;
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-messagebox-key-defaults.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-messagebox-key-defaults.log", "w", stdout)) {
         return 4;
     }
     SDL_SetMainReady();

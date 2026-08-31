@@ -2,7 +2,7 @@
 # Compile the upstream SDL video core after applying the OPENSTEP bootstrap.
 # This produces no archive and does not assert that window/event services work.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object = $build_root/SDL-video-core-gate.o
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/video -I$build_root/src/render -I$build_root/src/thread -I$build_root/src/timer"
 

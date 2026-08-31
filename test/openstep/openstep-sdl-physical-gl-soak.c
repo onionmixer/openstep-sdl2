@@ -34,7 +34,7 @@ int main(void)
     int frame;
     int result = 0;
 
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-physical-gl-soak.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-physical-gl-soak.log", "w", stdout)) {
         return 2;
     }
     if (SDL_Init(SDL_INIT_VIDEO) != 0) return Fail("video init failed");

@@ -1,8 +1,8 @@
 #!/bin/csh -f
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set test_source = /tmp/SDL20/src/test/openstep/openstep-sem-smoke.c
-set test_binary = /tmp/SDL20/bin/openstep-sem-smoke
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set test_source = /me/SDL20/src/test/openstep/openstep-sem-smoke.c
+set test_binary = /me/SDL20/bin/openstep-sem-smoke
 
 if (! -r $build_root/src/thread/openstep/SDL_syssem.c) then
     echo "build-openstep-sem-smoke: run prepare-openstep-tree.csh first"

@@ -1,8 +1,8 @@
 #!/bin/csh -f
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set test_source = /tmp/SDL20/src/test/openstep/atomic-smoke.c
-set test_binary = /tmp/SDL20/bin/atomic-smoke
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set test_source = /me/SDL20/src/test/openstep/atomic-smoke.c
+set test_binary = /me/SDL20/bin/atomic-smoke
 
 if (! -r $build_root/src/atomic/SDL_atomic.c) then
     echo "build-atomic-smoke: run prepare-openstep-tree.csh first"

@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 
     (void)argc;
     (void)argv;
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-physical-gl.log", "w", stdout)) return 2;
+    if (!freopen("/me/SDL20/log/openstep-sdl-physical-gl.log", "w", stdout)) return 2;
     if (SDL_Init(SDL_INIT_VIDEO) != 0) return Fail("video init failed");
     window = SDL_CreateWindow("SDL2 Mesa OpenGL physical probe",
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,

@@ -1,7 +1,7 @@
 #!/bin/csh -f
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set object_root = /tmp/SDL20/build/thread-objects
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set object_root = /me/SDL20/build/thread-objects
 set nonomatch
 
 if (! -r $build_root/src/thread/openstep/SDL_systhread.c) then

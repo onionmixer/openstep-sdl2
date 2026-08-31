@@ -1,6 +1,6 @@
 #!/bin/csh -f
 # Compile common SDL2 GUID, CRC, sort, tokenizer and RWops implementations.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/common-utility-objects
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/file -I$build_root/src/thread"
 set sources = ($build_root/src/SDL_guid.c $build_root/src/stdlib/SDL_crc16.c $build_root/src/stdlib/SDL_crc32.c $build_root/src/stdlib/SDL_qsort.c $build_root/src/stdlib/SDL_strtokr.c $build_root/src/file/SDL_rwops.c)

@@ -5,7 +5,7 @@
 
 int main(void)
 {
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-bootstrap-messagebox-probe.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-bootstrap-messagebox-probe.log", "w", stdout)) {
         return 4;
     }
     SDL_SetMainReady();

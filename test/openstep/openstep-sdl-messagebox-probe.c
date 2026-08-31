@@ -10,7 +10,7 @@ int main(void)
     SDL_MessageBoxData data;
     int selected = -1;
 
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-messagebox-probe.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-messagebox-probe.log", "w", stdout)) {
         return 4;
     }
     SDL_SetMainReady();

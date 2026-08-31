@@ -1,6 +1,6 @@
 #!/bin/csh -f
 # Compile upstream software blit/RLE/YUV/stretch sources for the SDL2 surface core.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/blit-core-objects
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/video -I$build_root/src/render -I$build_root/src/thread"
 set sources = (SDL_blit.c SDL_blit_0.c SDL_blit_1.c SDL_blit_A.c SDL_blit_N.c SDL_blit_auto.c SDL_blit_copy.c SDL_blit_slow.c SDL_RLEaccel.c SDL_yuv.c SDL_stretch.c yuv2rgb/yuv_rgb_std.c yuv2rgb/yuv_rgb_sse.c yuv2rgb/yuv_rgb_lsx.c)

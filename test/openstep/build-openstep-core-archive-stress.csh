@@ -1,8 +1,8 @@
 #!/bin/csh -f
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set test_source = /tmp/SDL20/src/test/openstep/openstep-core-archive-stress.c
-set test_binary = /tmp/SDL20/bin/openstep-core-archive-stress
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set test_source = /me/SDL20/src/test/openstep/openstep-core-archive-stress.c
+set test_binary = /me/SDL20/bin/openstep-core-archive-stress
 
 if (! -r $build_root/libSDL2-core-prototype.a) then
     echo "build-openstep-core-archive-stress: build the core prototype archive first"

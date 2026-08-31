@@ -1,7 +1,7 @@
 #!/bin/csh -f
 # Build only; run this interactively from an OPENSTEP GUI Terminal.
-set source_root = /tmp/SDL20/src
-set output = /tmp/SDL20/bin/openstep-keycode-probe
+set source_root = /me/SDL20/src
+set output = /me/SDL20/bin/openstep-keycode-probe
 
 if (! -r $source_root/test/openstep/openstep-keycode-probe.m) then
     echo "build-openstep-keycode-probe: run stage-openstep.csh first"

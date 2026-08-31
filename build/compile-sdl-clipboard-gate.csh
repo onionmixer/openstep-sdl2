@@ -1,7 +1,7 @@
 #!/bin/csh -f
 # Compile SDL's public clipboard dispatcher.  The OPENSTEP video backend
 # supplies the native NSPasteboard callbacks; no API is stubbed out.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object = $build_root/SDL-clipboard-gate.o
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/video"
 

@@ -1,7 +1,7 @@
 #!/bin/csh -f
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set object_root = /tmp/SDL20/build/core-objects
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set object_root = /me/SDL20/build/core-objects
 set nonomatch
 set sources = (SDL_error.c SDL_list.c SDL_dataqueue.c SDL_utils.c SDL_hints.c SDL_log.c)
 

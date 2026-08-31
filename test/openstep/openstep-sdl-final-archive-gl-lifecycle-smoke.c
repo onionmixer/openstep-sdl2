@@ -53,7 +53,7 @@ int main(void)
     int height;
     int result = 0;
 
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-final-archive-gl-lifecycle.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-final-archive-gl-lifecycle.log", "w", stdout)) {
         return 1;
     }
     Checkpoint("video init");

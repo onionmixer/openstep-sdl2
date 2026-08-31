@@ -1,7 +1,7 @@
 #!/bin/csh -f
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set test_object = /tmp/SDL20/build/SDL_string.o
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set test_object = /me/SDL20/build/SDL_string.o
 
 if (! -r $build_root/src/stdlib/SDL_string.c) then
     echo "compile-stdlib-smoke: run prepare-openstep-tree.csh first"

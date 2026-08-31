@@ -1,12 +1,12 @@
 #!/bin/csh -f
 # Combine only actual SDL2/OpenStep objects with ld -r and record the link
 # boundary. This diagnostic artifact is neither libSDL2.a nor executable.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set closure = $build_root/SDL-init-closure-gate.o
 set report = $build_root/SDL-init-closure-unresolved.txt
 
 foreach gate (compile-sdl-init-gate.csh compile-sdl-assert-gate.csh compile-sdl-core-support-gate.csh compile-sdl-common-utilities-gate.csh compile-sdl-hidapi-fallback-gate.csh compile-sdl-audio-core-gate.csh compile-openstep-audio-bootstrap-gate.csh compile-sdl-events-full-gate.csh compile-sdl-sensor-gate.csh compile-sdl-joystick-core-gate.csh compile-sdl-haptic-core-gate.csh compile-sdl-standard-fallbacks-gate.csh compile-sdl-misc-fallback-gate.csh compile-sdl-rect-core-gate.csh compile-sdl-surface-core-gate.csh compile-sdl-bmp-gate.csh compile-sdl-shape-gate.csh compile-sdl-blit-core-gate.csh compile-sdl-libm-gate.csh compile-sdl-cpuinfo-gate.csh compile-sdl-video-core-gate.csh compile-sdl-clipboard-gate.csh compile-openstep-video-bootstrap-gate.csh compile-sdl-software-renderer-gate.csh compile-sdl-fillrect-gate.csh)
-    csh -f /tmp/SDL20/src/build/$gate
+    csh -f /me/SDL20/src/build/$gate
     if ($status != 0) exit 1
 end
 

@@ -1,6 +1,6 @@
 #!/bin/csh -f
 # Compile the upstream SDL2 rectangle implementation used by surfaces/events.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object = $build_root/SDL-rect-core-gate.o
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/video"
 

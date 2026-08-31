@@ -12,7 +12,7 @@ int main(void)
     int selected = -99;
     int i;
 
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-messagebox-custom-buttons.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-messagebox-custom-buttons.log", "w", stdout)) {
         return 4;
     }
     SDL_SetMainReady();

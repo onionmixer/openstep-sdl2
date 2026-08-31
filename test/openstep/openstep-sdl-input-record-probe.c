@@ -51,7 +51,7 @@ main(int argc, char **argv)
 
     (void)argc;
     (void)argv;
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-input-record.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-input-record.log", "w", stdout)) {
         return 1;
     }
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {

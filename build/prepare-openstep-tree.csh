@@ -1,9 +1,9 @@
 #!/bin/csh -f
 # Make a writable SDL2 build overlay. The staged source tree is never
-# modified; all generated files and objects remain under /tmp/SDL20/build.
+# modified; all generated files and objects remain under /me/SDL20/build.
 
-set source_root = /tmp/SDL20/src
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set source_root = /me/SDL20/src
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 
 if (! -r $source_root/upstream/SDL-2.32.10/include/SDL.h) then
     echo "prepare-openstep: run stage-openstep.csh after importing SDL first"

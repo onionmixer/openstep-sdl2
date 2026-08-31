@@ -139,7 +139,7 @@ int main(void)
     int saw_complete = 0;
     int result = 0;
 
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-combined-droptext-record.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-combined-droptext-record.log", "w", stdout)) {
         return 2;
     }
     if (SDL_Init(SDL_INIT_VIDEO) != 0) return fail("video init failed");

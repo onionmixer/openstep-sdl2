@@ -3,7 +3,7 @@
 # them. This is the target-side link phase used when remote sessions are
 # intentionally kept short and observable.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set closure = $build_root/SDL-init-closure-gate.o
 set report = $build_root/SDL-init-closure-unresolved.txt
 

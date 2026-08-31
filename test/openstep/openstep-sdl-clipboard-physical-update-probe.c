@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 
     (void)argc;
     (void)argv;
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-clipboard-physical-update.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-clipboard-physical-update.log", "w", stdout)) {
         return 2;
     }
     if (SDL_Init(SDL_INIT_VIDEO) != 0) return Fail("video init failed");

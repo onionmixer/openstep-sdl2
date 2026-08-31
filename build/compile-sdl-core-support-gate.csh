@@ -1,7 +1,7 @@
 #!/bin/csh -f
 # Compile one non-overlapping set of the common SDL2 support implementation.
 # This uses upstream SDL_stdlib.c, not the older prototype-only compat file.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/core-support-objects
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/thread -I$build_root/src/timer"
 set sources = (src/SDL_dataqueue.c src/SDL_error.c src/SDL_hints.c src/SDL_list.c src/SDL_log.c src/SDL_utils.c src/atomic/SDL_atomic.c src/atomic/SDL_spinlock.c src/stdlib/SDL_malloc.c src/stdlib/SDL_stdlib.c src/stdlib/SDL_string.c src/stdlib/SDL_getenv.c src/stdlib/SDL_iconv.c src/thread/SDL_thread.c src/thread/openstep/SDL_systls.c src/thread/openstep/SDL_systhread.c src/thread/openstep/SDL_sysmutex.c src/thread/openstep/SDL_syssem.c src/thread/openstep/SDL_syscond.c src/timer/SDL_timer.c src/timer/SDL_systimer.c)

@@ -1,6 +1,6 @@
 #!/bin/csh -f
 # Verify SDL2 Libraries, Headers and Demos packages without installing them.
-set work = /tmp/SDL20
+set work = /me/SDL20
 set src = $work/src
 set dist = $work/sdl2-dist
 set libraries = $dist/OpenStepSDL2Libraries.pkg

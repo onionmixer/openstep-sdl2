@@ -2,7 +2,7 @@
 # Compile the complete platform-independent SDL2 event subsystem. Platform
 # drivers are deliberately kept separate; this verifies the shared queue,
 # keyboard, mouse, touch, gesture, drop and quit implementations together.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/events-full-objects
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/events -I$build_root/src/video -I$build_root/src/render -I$build_root/src/thread -I$build_root/src/timer"
 set sources = ($build_root/src/events/*.c)

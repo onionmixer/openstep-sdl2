@@ -1,7 +1,7 @@
 #!/bin/csh -f
 # Build the native OPENSTEP Installer package from a clean private SDL stage.
 
-set work = /tmp/SDL20
+set work = /me/SDL20
 set src = $work/src
 set out = $work/build/SDL-2.32.10-openstep
 set pay = $work/sdl2-payload

@@ -1,8 +1,8 @@
 #!/bin/csh -f
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set test_source = /tmp/SDL20/src/test/openstep/openstep-mutex-smoke.c
-set test_binary = /tmp/SDL20/bin/openstep-mutex-smoke
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set test_source = /me/SDL20/src/test/openstep/openstep-mutex-smoke.c
+set test_binary = /me/SDL20/bin/openstep-mutex-smoke
 
 if (! -r $build_root/src/thread/openstep/SDL_sysmutex.c) then
     echo "build-openstep-mutex-smoke: run prepare-openstep-tree.csh first"

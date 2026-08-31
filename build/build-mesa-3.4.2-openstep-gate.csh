@@ -2,7 +2,7 @@
 # Build the historically selected non-LLVM Mesa 3.4.2 OpenStep target in the
 # private target stage.  This is a Mesa dependency gate, not an SDL2 library.
 
-set mesa_root = /tmp/SDL20/mesa/Mesa-3.4.2
+set mesa_root = /me/SDL20/mesa/Mesa-3.4.2
 set lib_root = $mesa_root/lib
 
 if (! -r $mesa_root/Make-config || ! -r $mesa_root/docs/README.OpenStep) then

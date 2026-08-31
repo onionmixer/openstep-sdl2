@@ -109,8 +109,8 @@ static int CheckTextDropEvents(const char *expected_text)
 
 int main(void)
 {
-    static const char first_path[] = "/tmp/SDL20/\303\251-drop";
-    static const char second_path[] = "/tmp/SDL20/plain-drop";
+    static const char first_path[] = "/me/SDL20/\303\251-drop";
+    static const char second_path[] = "/me/SDL20/plain-drop";
     static const char drop_text[] = "OPENSTEP SDL2 \303\251 text";
     SDL_Window *window = NULL;
     NSWindow *native;

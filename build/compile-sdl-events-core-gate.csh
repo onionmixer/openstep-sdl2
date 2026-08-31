@@ -2,7 +2,7 @@
 # Compile the upstream SDL2 event core used by the OPENSTEP AppKit driver.
 # This is an object gate; remaining event module links are tracked separately.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/events-core-objects
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/events -I$build_root/src/video -I$build_root/src/render -I$build_root/src/thread -I$build_root/src/timer"
 set sources = (SDL_events.c SDL_keyboard.c SDL_mouse.c SDL_windowevents.c SDL_quit.c)

@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
     (void)argc;
     (void)argv;
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-physical-tone.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-physical-tone.log", "w", stdout)) {
         return 2;
     }
     if (SDL_setenv("SDL_AUDIODRIVER", "openstep", 1) != 0) return Fail("set audio driver");

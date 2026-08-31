@@ -8,13 +8,13 @@ if ($#argv != 1) then
 endif
 
 set archive = $argv[1]
-set source_root = /tmp/SDL20/src
+set source_root = /me/SDL20/src
 set manifest = $source_root/notes/SDL2.32.10.OPENSTEP_API_MANIFEST.txt
-set symbols = /tmp/SDL20/build/diagnostic-sdl2-symbols.txt
-set missing = /tmp/SDL20/build/diagnostic-sdl2-missing.txt
-set raw_symbols = /tmp/SDL20/build/diagnostic-sdl2-symbols-raw.txt
-set member_object = /tmp/SDL20/build/diagnostic-sdl2-member.o
-set member_symbols = /tmp/SDL20/build/diagnostic-sdl2-member-symbols.txt
+set symbols = /me/SDL20/build/diagnostic-sdl2-symbols.txt
+set missing = /me/SDL20/build/diagnostic-sdl2-missing.txt
+set raw_symbols = /me/SDL20/build/diagnostic-sdl2-symbols-raw.txt
+set member_object = /me/SDL20/build/diagnostic-sdl2-member.o
+set member_symbols = /me/SDL20/build/diagnostic-sdl2-member-symbols.txt
 
 if (! -r $archive) then
     echo "report-sdl2-openstep-manifest: cannot read $archive"

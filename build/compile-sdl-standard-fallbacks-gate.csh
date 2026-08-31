@@ -1,6 +1,6 @@
 #!/bin/csh -f
 # Compile standard SDL2 fallback implementations without removing their API.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/standard-fallback-objects
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/locale -I$build_root/src/power"
 

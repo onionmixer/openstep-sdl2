@@ -2,7 +2,7 @@
 # Build the explicitly bounded, headless SDL2 compiler-gate archive.
 # This is not the final SDL2 port and must not be installed or named libSDL2.a.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/core-objects
 set archive = $build_root/libSDL2-core-prototype.a
 set cflags = "-m486 -O -Wall -DSDL_ASSERT_LEVEL=0 -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/thread -I$build_root/src/timer"

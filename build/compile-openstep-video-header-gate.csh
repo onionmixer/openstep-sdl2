@@ -2,8 +2,8 @@
 # Compile the native AppKit/DPS boundary and SDL2's private video ABI.
 # This is not a video driver or a window-success test.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
-set source_root = /tmp/SDL20/src
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
+set source_root = /me/SDL20/src
 set object = $build_root/openstep-video-header-gate.o
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/video -I$build_root/src/video/openstep"
 

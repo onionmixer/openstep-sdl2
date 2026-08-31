@@ -3,11 +3,11 @@
 # exact final public-API manifest gate pass.  Runtime/interactive coverage is
 # recorded separately; this script validates the static-library ABI boundary.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set diagnostic = $build_root/libSDL2-diagnostic.a
 set final = $build_root/libSDL2.a
 
-csh -f /tmp/SDL20/src/build/build-sdl2-openstep-diagnostic-archive.csh
+csh -f /me/SDL20/src/build/build-sdl2-openstep-diagnostic-archive.csh
 if ($status != 0) exit 1
 if (! -r $diagnostic) then
     echo "build-sdl2-openstep-release-archive: diagnostic archive missing"
@@ -28,7 +28,7 @@ if ($status != 0) then
     rm -f $final
     exit 1
 endif
-csh -f /tmp/SDL20/src/build/check-final-api-manifest.csh $final
+csh -f /me/SDL20/src/build/check-final-api-manifest.csh $final
 if ($status != 0) then
     rm -f $final
     exit 1

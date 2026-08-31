@@ -1,7 +1,7 @@
 #!/bin/csh -f
 # Compile the complete shared joystick/game-controller core with SDL's
 # standard no-device driver. This preserves the public API on OPENSTEP.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/joystick-core-objects
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/joystick -I$build_root/src/joystick/hidapi -I$build_root/src/events -I$build_root/src/video -I$build_root/src/thread"
 set sources = ($build_root/src/joystick/*.c $build_root/src/joystick/dummy/SDL_sysjoystick.c)

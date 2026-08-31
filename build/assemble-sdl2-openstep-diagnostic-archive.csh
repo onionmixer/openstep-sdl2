@@ -3,7 +3,7 @@
 # Keeping this separate from compilation makes a target-side interruption
 # observable without rebuilding the full set of objects.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set archive = $build_root/libSDL2-diagnostic.a
 set member_root = $build_root/diagnostic-archive-members
 set member_map = $build_root/diagnostic-archive-members.map
@@ -30,6 +30,6 @@ ar cr $archive $member_root/m*.o
 if ($status != 0) exit 1
 ranlib $archive
 if ($status != 0) exit 1
-csh -f /tmp/SDL20/src/build/report-sdl2-openstep-manifest.csh $archive
+csh -f /me/SDL20/src/build/report-sdl2-openstep-manifest.csh $archive
 if ($status != 0) exit 1
 echo "assemble-sdl2-openstep-diagnostic-archive: PASS $archive (diagnostic only)"

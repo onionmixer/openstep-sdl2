@@ -7,7 +7,7 @@ int main(void)
 {
     SDL_Window *window;
 
-    if (!freopen("/tmp/SDL20/log/openstep-sdl-parent-messagebox-probe.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-sdl-parent-messagebox-probe.log", "w", stdout)) {
         return 4;
     }
     SDL_SetMainReady();

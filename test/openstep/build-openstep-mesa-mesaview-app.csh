@@ -2,9 +2,9 @@
 # Build Mesa 3.4.2's original OpenStep/MesaView application in a private app
 # bundle.  It is linked but not run here: launch it from a console Workspace
 # terminal to test the target's AppKit/DPS session independently of SDL.
-set mesa = /tmp/SDL20/mesa/Mesa-3.4.2
+set mesa = /me/SDL20/mesa/Mesa-3.4.2
 set view = $mesa/OpenStep/MesaView
-set app = /tmp/SDL20/bin/MesaView.app
+set app = /me/SDL20/bin/MesaView.app
 set executable = $app/MesaView
 set resources = $app/Resources
 set info = $resources/Info-nextstep.plist
@@ -26,6 +26,6 @@ if ($status != 0) exit 1
 rm -f $executable
 cc -m486 -O -Wall -I$mesa/include -I$view $view/MesaView_main.m $view/MesaView.m $view/mesadraw.c $view/vect3d.c -L$mesa/lib -lGLU -lGL -lm -framework AppKit -framework Foundation -o $executable
 if ($status != 0) exit 1
-csh -f /tmp/SDL20/src/port/openstep/fix-macho-i486-subtype.csh $executable
+csh -f /me/SDL20/src/port/openstep/fix-macho-i486-subtype.csh $executable
 if ($status != 0) exit 1
 echo "build-openstep-mesa-mesaview-app: PASS $app (not run)"

@@ -71,7 +71,7 @@ int main(void)
     NSWindow *window;
     OPENSTEPInputRecordView *view;
 
-    if (!freopen("/tmp/SDL20/log/openstep-appkit-input-record.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-appkit-input-record.log", "w", stdout)) {
         return 1;
     }
     pool = [[NSAutoreleasePool alloc] init];

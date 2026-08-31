@@ -130,7 +130,7 @@ static int Matrix2Hints(void)
 
 static int Matrix2RWopsFile(void)
 {
-    const char *path = "/tmp/SDL20/build/runtime-matrix2-rwops.bin";
+    const char *path = "/me/SDL20/build/runtime-matrix2-rwops.bin";
     Uint8 input[3];
     Uint8 output[3];
     SDL_RWops *rw;

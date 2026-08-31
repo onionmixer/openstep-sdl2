@@ -1,7 +1,7 @@
 #!/bin/csh -f
 
-set test_source = /tmp/SDL20/src/test/openstep/cthreads-smoke.c
-set test_binary = /tmp/SDL20/bin/cthreads-smoke
+set test_source = /me/SDL20/src/test/openstep/cthreads-smoke.c
+set test_binary = /me/SDL20/bin/cthreads-smoke
 
 rm -f $test_binary
 cc -m486 -Wall $test_source -o $test_binary

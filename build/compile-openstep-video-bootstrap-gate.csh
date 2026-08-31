@@ -2,9 +2,9 @@
 # Compile the OPENSTEP video bootstrap/window/framebuffer/basic-event source.
 # Keyboard mapping and complete event-core linking remain outside this gate.
 
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object = $build_root/openstep-video-bootstrap-gate.o
-set mesa_include = /tmp/SDL20/mesa/Mesa-3.4.2/include
+set mesa_include = /me/SDL20/mesa/Mesa-3.4.2/include
 set cflags = "-m486 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src -I$build_root/src/video -I$build_root/src/video/openstep -I$mesa_include"
 
 if (! -r $build_root/src/video/openstep/SDL_openstepvideo.m) then

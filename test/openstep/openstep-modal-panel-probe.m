@@ -43,7 +43,7 @@ int main(void)
     NSModalSession session;
     int response;
 
-    if (!freopen("/tmp/SDL20/log/openstep-modal-panel-probe.log", "w", stdout)) {
+    if (!freopen("/me/SDL20/log/openstep-modal-panel-probe.log", "w", stdout)) {
         return 4;
     }
     pool = [[NSAutoreleasePool alloc] init];

@@ -1,7 +1,7 @@
 #!/bin/csh -f
 # Compile OPENSTEP's i386 CPU information implementation. NeXT cc marks the
 # generic SDL x86 CPUID unit as i586, which OPENSTEP's i386 loader rejects.
-set build_root = /tmp/SDL20/build/SDL-2.32.10-openstep
+set build_root = /me/SDL20/build/SDL-2.32.10-openstep
 set object_root = $build_root/cpuinfo-objects
 set cflags = "-m486 -arch i386 -O -Wall -D__OPENSTEP__ -I$build_root/include -I$build_root/src"
 

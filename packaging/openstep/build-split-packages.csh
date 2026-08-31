@@ -1,6 +1,6 @@
 #!/bin/csh -f
 # Produce independently installable SDL2 Libraries, Headers and Demos packages.
-set work = /tmp/SDL20
+set work = /me/SDL20
 set src = $work/src
 set out = $work/build/SDL-2.32.10-openstep
 set lpay = $work/sdl2-libraries-payload

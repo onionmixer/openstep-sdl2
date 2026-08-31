@@ -5,7 +5,7 @@
 set source_export = /ndrv
 if ("$1" != "") set source_export = "$1"
 set source_root = $source_export/openstep-sdl20
-set work_root = /tmp/SDL20
+set work_root = /me/SDL20
 set stage_root = $work_root/.src-staging
 
 if (! -r $source_root/README.md) then
