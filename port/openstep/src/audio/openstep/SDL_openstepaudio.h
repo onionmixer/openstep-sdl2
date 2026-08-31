@@ -8,13 +8,19 @@
 #define _THIS SDL_AudioDevice *_this
 
 #define OPENSTEP_AUDIO_QUEUE_SLOTS 8
-#define OPENSTEP_AUDIO_QUEUE_AHEAD 4
+/* Three, not four: the worst-phase reserve is (AHEAD - 1) buffers, and at
+ * freq/8 that is 250 ms -- enough for a frame-long SDL_LockAudio -- while
+ * the nominal queue drops from a second to ~375 ms. */
+#define OPENSTEP_AUDIO_QUEUE_AHEAD 3
 
 struct SDL_PrivateAudioData
 {
     Uint8 *mixbuf;
     Uint32 mixlen;
     Uint32 delay_ms;
+    int started;
+    int underruns;
+    int playfailures;
     void *sounds[OPENSTEP_AUDIO_QUEUE_SLOTS];
     int tags[OPENSTEP_AUDIO_QUEUE_SLOTS];
     int next_tag;

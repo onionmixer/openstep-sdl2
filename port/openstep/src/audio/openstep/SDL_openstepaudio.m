@@ -40,7 +40,12 @@ static int OPENSTEPAUDIO_OpenDevice(_THIS, const char *devname)
         _this->spec.channels = 2;
     }
     _this->spec.format = AUDIO_S16MSB;
-    _this->spec.samples = (Uint16)(_this->spec.freq / 4);
+    /* An eighth of a second a buffer.  A quarter, with QUEUE_AHEAD 4, kept
+     * a full second queued -- audible as weapon fire arriving a second
+     * late.  The worst-phase guarantee is (QUEUE_AHEAD - 1) buffers (the
+     * first is already playing), so freq/8 with QUEUE_AHEAD 3 holds 250 ms
+     * against a frame-long SDL_LockAudio and queues ~375 ms nominal. */
+    _this->spec.samples = (Uint16)(_this->spec.freq / 8);
     SDL_CalculateAudioSpec(&_this->spec);
 
     _this->hidden = (struct SDL_PrivateAudioData *)SDL_calloc(1, sizeof(*_this->hidden));
@@ -76,6 +81,13 @@ static void OPENSTEPAUDIO_PlayDevice(_THIS)
     if (_this->hidden->count == OPENSTEP_AUDIO_QUEUE_SLOTS) {
         OPENSTEPAUDIO_DrainOne(_this);
     }
+    /* An empty queue after the first buffer means the device ran dry --
+     * counted, and said once at close, because a short repeated gap is
+     * hard to judge by ear. */
+    if (_this->hidden->started && _this->hidden->count == 0) {
+        ++_this->hidden->underruns;
+    }
+    _this->hidden->started = 1;
     sound = (SNDSoundStruct *)SDL_malloc(sizeof(*sound) + _this->hidden->mixlen);
     if (sound == NULL) {
         SDL_OutOfMemory();
@@ -96,6 +108,7 @@ static void OPENSTEPAUDIO_PlayDevice(_THIS)
     error = SNDStartPlaying(sound, _this->hidden->next_tag, 0, 0, SND_NULL_FUN, SND_NULL_FUN);
     if (error != SND_ERR_NONE) {
         SDL_free(sound);
+        ++_this->hidden->playfailures;
         SDL_SetError("OPENSTEP SoundKit play failed (%d)", error);
         return;
     }
@@ -115,6 +128,10 @@ static void OPENSTEPAUDIO_WaitDevice(_THIS)
 static void OPENSTEPAUDIO_CloseDevice(_THIS)
 {
     if (_this->hidden != NULL) {
+        if (_this->hidden->underruns != 0 || _this->hidden->playfailures != 0) {
+            SDL_Log("OPENSTEP audio: %d underruns, %d play failures",
+                    _this->hidden->underruns, _this->hidden->playfailures);
+        }
         while (_this->hidden->count > 0) {
             OPENSTEPAUDIO_DrainOne(_this);
         }
