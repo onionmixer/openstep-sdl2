@@ -12,9 +12,9 @@ GitHub Release asset은 아직 미완료.**
 | 구성 | GitHub 저장소 식별자 | 제품/Installer 표시명 | 기준 버전 | 역할 |
 | --- | --- | --- | --- | --- |
 | SDL | `openstep-sdl2` | OPENSTEP SDL2 | SDL `2.32.10` | 표준 SDL2 정적 라이브러리·헤더·데모 |
-| Mesa | `opennstep-mesa342` | OPENSTEP Mesa 3.4.2 (Intel i486) | Mesa `3.4.2` | Intel i486 전용 GL 1.2/GLU/OSMesa 라이브러리·헤더·데모 |
+| Mesa | `openstep-mesa342` | OPENSTEP Mesa 3.4.2 (Intel i486) | Mesa `3.4.2` | Intel i486 전용 GL 1.2/GLU/OSMesa 라이브러리·헤더·데모 |
 
-`opennstep-mesa342`는 요청에 적힌 원격 저장소 철자를 그대로 쓴다. 문서와
+`openstep-mesa342`는 요청에 적힌 원격 저장소 철자를 그대로 쓴다. 문서와
 Installer 화면의 제품명은 혼동을 피하기 위해 **OPENSTEP Mesa 3.4.2**로
 표기한다. 두 원격 저장소는 생성·push되었으며, 생성된 `.pkg` 디렉터리와
 GitHub Release asset은 아직 별도 배포하지 않는다.
@@ -133,7 +133,7 @@ openstep-sdl2/
     verify-package.csh  release-manifest.txt
   docs/  evidence/release/
 
-opennstep-mesa342/
+openstep-mesa342/
   README.md  CHANGELOG.md  NOTICE.md
   upstream/Mesa-3.4.2/               # 또는 검증된 source tar + fetch manifest
   port/openstep/  build/  test/
@@ -220,10 +220,10 @@ software OSMesa, i486/OPENSTEP 4.2), 제외 범위(X11/GLX, GLES/EGL/Vulkan,
 ### P0 — 릴리즈 계약·패키지 분할 **완료**
 
 1. GitHub 원격 `onionmixer/openstep-sdl2`와
-   `onionmixer/opennstep-mesa342`를 생성하고 source를 push했다.
+   `onionmixer/openstep-mesa342`를 생성하고 source를 push했다.
 2. `/LocalDeveloper` 기본 prefix, 세 package 표시명과
    `*-openstep.1` version scheme을 `.info` metadata에 적용했다.
-3. `opennstep-mesa342` 철자가 의도된 원격 식별자임을 확정했다.
+3. `openstep-mesa342` 철자가 의도된 원격 식별자임을 확정했다.
 4. 검증된 full upstream snapshot과 port overlay를 각 저장소에서 분리해 유지한다.
 5. 제품별 Libraries/Headers/Demos payload manifest와 target verifier가
    package class 간의 archive/header/demo 혼입을 검사한다.
@@ -306,13 +306,13 @@ manifest가 모두 PASS이며 알려진 제한이 README/Release notes와 일치
 1. 각 local repo가 clean이고 secret scan, license inventory, `git diff --check`,
    source/payload manifest 검사를 통과했는지 확인한다.
 2. 이미 생성된 `onionmixer/openstep-sdl2` 및
-   `onionmixer/opennstep-mesa342` 원격과 tag 대상 commit을 재확인한다.
+   `onionmixer/openstep-mesa342` 원격과 tag 대상 commit을 재확인한다.
    Repository 생성 또는 visibility 변경은 이 단계의 작업이 아니다.
 3. upstream+port release tag를 생성·push한다.
 
    ```text
    openstep-sdl2:       v2.32.10-openstep.1
-   opennstep-mesa342:   v3.4.2-openstep.1
+   openstep-mesa342:   v3.4.2-openstep.1
    ```
 
 4. tag commit에서 만든 `.pkg.tar.gz`, source archive, checksums,

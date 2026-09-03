@@ -12,7 +12,7 @@ Each product is split into independent **Libraries**, **Headers** and
 | File | Purpose | Future repository |
 | --- | --- | --- |
 | `SDL2_PAYLOAD_MANIFEST.md` | SDL Libraries, Headers and Demos payload contract | `openstep-sdl2` |
-| `MESA342_PAYLOAD_MANIFEST.md` | Mesa Libraries, Headers and Demos payload contract | `opennstep-mesa342` |
+| `MESA342_PAYLOAD_MANIFEST.md` | Mesa Libraries, Headers and Demos payload contract | `openstep-mesa342` |
 | `SPLIT_PACKAGE_CONTRACT.md` | shared package names, separation and installation order | both |
 | `LICENSE_INVENTORY.md` | Required notices before an asset may be released | both |
 | `UPSTREAM_PROVENANCE.md` | Verified source identity and snapshot policy | both |
