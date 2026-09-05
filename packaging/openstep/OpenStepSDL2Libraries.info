@@ -1,5 +1,5 @@
 Title OPENSTEP SDL2 Libraries (Intel i486)
-Version 2.32.10-openstep.2
+Version 2.32.10-openstep.3
 Description Intel i486-only static SDL 2.32.10 library for OPENSTEP 4.2.
 DefaultLocation /LocalDeveloper
 Relocatable YES
