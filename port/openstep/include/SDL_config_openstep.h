@@ -21,14 +21,44 @@
 #define SDL_DISABLE_ANALYZE_MACROS 1
 
 /* OPENSTEP 4.2 has neither <stdint.h> nor <inttypes.h>, but its BSD system
-   types provide signed intN_t and u_intN_t. */
+   types provide signed intN_t and u_intN_t.
+
+   The uintN_t aliases carry the _UINTn_T_DECLARED guards upstream SDL uses
+   for the same purpose (see SDL_config_symbian.h).  C89 does not permit a
+   typedef name to be redefined, so an application that also supplies these
+   aliases -- from its own <stdint.h> replacement, say -- would otherwise
+   collide with this header, and cc 2.7.2.1 would reject the translation
+   unit.  A modern gcc only warns about that under -pedantic, which makes it
+   easy to miss.
+
+   With no guard predefined the preprocessed result is byte-identical to the
+   unguarded version, so nothing that builds against this port today changes
+   or needs rebuilding. */
 #include <sys/types.h>
+#ifndef _UINT8_T_DECLARED
+#define _UINT8_T_DECLARED
 typedef u_int8_t uint8_t;
+#endif
+#ifndef _UINT16_T_DECLARED
+#define _UINT16_T_DECLARED
 typedef u_int16_t uint16_t;
+#endif
+#ifndef _UINT32_T_DECLARED
+#define _UINT32_T_DECLARED
 typedef u_int32_t uint32_t;
+#endif
+#ifndef _UINT64_T_DECLARED
+#define _UINT64_T_DECLARED
 typedef u_int64_t uint64_t;
+#endif
+#ifndef _INTPTR_T_DECLARED
+#define _INTPTR_T_DECLARED
 typedef signed int intptr_t;
+#endif
+#ifndef _UINTPTR_T_DECLARED
+#define _UINTPTR_T_DECLARED
 typedef unsigned int uintptr_t;
+#endif
 
 /* OPENSTEP's <sys/stat.h> supplies the POSIX file-type bits but predates
    these convenient predicates, which SDL_RWops uses for safe file handling. */
