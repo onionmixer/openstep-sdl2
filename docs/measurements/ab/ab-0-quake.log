@@ -1,0 +1,398 @@
+arm 0: SDL_OPENSTEP_MUTEX=yield SDL_OPENSTEP_THREAD_PRIORITY=off
+Added packfile ./id1/pak0.pak (353 files)
+Added packfile ./id1/pak1.pak (60 files)
+PackFile: ./id1/pak1.pak : gfx/pop.lmp
+Playing registered version.
+PackFile: ./id1/pak0.pak : gfx.wad
+Console initialized.
+UDP_Init: "<host>" does not resolve; using 127.0.0.1.
+          Add it to the hosts database to be reachable.
+UDP Initialized
+Exe: 04:17:51 GMT+0900 Wed Sep 09 2026
+16.0 megabyte heap
+PackFile: ./id1/pak0.pak : gfx/palette.lmp
+PackFile: ./id1/pak0.pak : gfx/colormap.lmp
+VID: asked 640x480, got 640x480, on a 1024x768 desktop
+GL_VENDOR: Brian Paul
+GL_RENDERER: Mesa OffScreen
+GL_VERSION: 1.2 Mesa 3.4.2
+PackFile: ./id1/pak1.pak : gfx/conback.lmp
+
+Sound Initialization
+INFO: OPENSTEP audio: 5 buffers of 2756 frames, 6 queued; worst wait 51 ms, worst submit 1 ms
+INFO: OPENSTEP audio: this thread base priority 10, current 10, max 18, depressed 0
+INFO: OPENSTEP audio: SDL mutexes yield; 6 acquisitions took 0 ms in total, worst 0 ms
+INFO: OPENSTEP audio: refill gap ms    <25:4  <50:0 <100:0 <150:0 <250:0 <375:0 <500:0 >=500:0   worst 0 ms
+Sound sampling rate: 11025
+PackFile: ./id1/pak0.pak : sound/ambience/water1.wav
+PackFile: ./id1/pak0.pak : sound/ambience/wind2.wav
+PackFile: ./id1/pak0.pak : sound/wizard/hit.wav
+PackFile: ./id1/pak0.pak : sound/hknight/hit.wav
+PackFile: ./id1/pak0.pak : sound/weapons/tink1.wav
+PackFile: ./id1/pak0.pak : sound/weapons/ric1.wav
+PackFile: ./id1/pak0.pak : sound/weapons/ric2.wav
+PackFile: ./id1/pak0.pak : sound/weapons/ric3.wav
+PackFile: ./id1/pak0.pak : sound/weapons/r_exp3.wav
+========Quake Initialized=========
+PackFile: ./id1/pak0.pak : quake.rc
+execing quake.rc
+PackFile: ./id1/pak0.pak : default.cfg
+execing default.cfg
+"MOUSE5" isn't a valid key
+"PRINTSCREEN" isn't a valid key
+"ABUTTON" isn't a valid key
+"BBUTTON" isn't a valid key
+"LTRIGGER" isn't a valid key
+"LTHUMB" isn't a valid key
+"RTRIGGER" isn't a valid key
+"RTHUMB" isn't a valid key
+"RSHOULDER" isn't a valid key
+"LSHOULDER" isn't a valid key
+"YBUTTON" isn't a valid key
+"XBUTTON" isn't a valid key
+Unknown command "scr_conalpha"
+Unknown command "r_slimealpha"
+Unknown command "r_lavaalpha"
+Unknown command "r_telealpha"
+Unknown command "contrast"
+Unknown command "joy_enable"
+Unknown command "topcolor"
+Unknown command "bottomcolor"
+Unknown command "serverinfo"
+Unknown command "set"
+Unknown command "if"
+PackFile: ./id1/pak0.pak : default_$generic.cfg
+execing default_$generic.cfg
+Unknown command "gl_texture_anisotropy"
+Unknown command "gl_overbright_models"
+Unknown command "vid_fsaa"
+Unknown command "vid_fsaamode"
+Unknown command "scr_pixelaspect"
+Unknown command "scr_crosshairscale"
+Unknown command "scr_menuscale"
+Unknown command "scr_conscale"
+Unknown command "scr_sbarscale"
+Unknown command "scr_sbaralpha"
+Unknown command "cl_alwaysrun"
+Unknown command "r_particles"
+Unknown command "r_waterwarp"
+Unknown command "r_viewmodel_quake"
+Unknown command "sv_autoload"
+Unknown command "cl_fakeshaft"
+Unknown command "gl_texturemode_viewmodels"
+Unknown command "r_lerpmuzzlehack"
+Unknown command "gl_texturemode_sky"
+Unknown command "gl_texturemode_hud"
+Unknown command "gl_overbright_model"
+Unknown command "gl_smoothfont"
+Unknown command "cl_stainmaps"
+Unknown command "cl_decals"
+Unknown command "cl_particles_quake"
+Unknown command "cl_beams_polygons"
+Unknown command "r_font_postprocess_mono"
+Unknown command "r_waterscroll"
+FindFile: can't find style_ironwail_modern.cfg
+couldn't exec style_ironwail_modern.cfg
+FindFile: ./id1/config.cfg
+execing config.cfg
+FindFile: can't find autoexec.cfg
+couldn't exec autoexec.cfg
+3 demo(s) in loop
+Playing demo from demo1.dem.
+PackFile: ./id1/pak0.pak : demo1.dem
+
+VERSION 1.09 SERVER (22264 CRC)
+
+
+
+Baseless Base Banter
+PackFile: ./id1/pak0.pak : maps/lq_e0m1.bsp
+PackFile: ./id1/pak0.pak : progs/player.mdl
+FindFile: ./id1/glquake/player.ms2
+PackFile: ./id1/pak0.pak : progs/eyes.mdl
+FindFile: ./id1/glquake/eyes.ms2
+PackFile: ./id1/pak0.pak : progs/h_player.mdl
+FindFile: ./id1/glquake/h_player.ms2
+PackFile: ./id1/pak0.pak : progs/gib1.mdl
+FindFile: ./id1/glquake/gib1.ms2
+PackFile: ./id1/pak0.pak : progs/gib2.mdl
+FindFile: ./id1/glquake/gib2.ms2
+PackFile: ./id1/pak0.pak : progs/gib3.mdl
+FindFile: ./id1/glquake/gib3.ms2
+PackFile: ./id1/pak0.pak : progs/s_bubble.spr
+PackFile: ./id1/pak0.pak : progs/s_explod.spr
+PackFile: ./id1/pak0.pak : progs/v_axe.mdl
+FindFile: ./id1/glquake/v_axe.ms2
+PackFile: ./id1/pak0.pak : progs/v_shot.mdl
+FindFile: ./id1/glquake/v_shot.ms2
+PackFile: ./id1/pak0.pak : progs/v_nail.mdl
+FindFile: ./id1/glquake/v_nail.ms2
+PackFile: ./id1/pak0.pak : progs/v_rock.mdl
+FindFile: ./id1/glquake/v_rock.ms2
+PackFile: ./id1/pak0.pak : progs/v_shot2.mdl
+FindFile: ./id1/glquake/v_shot2.ms2
+PackFile: ./id1/pak0.pak : progs/v_nail2.mdl
+FindFile: ./id1/glquake/v_nail2.ms2
+PackFile: ./id1/pak0.pak : progs/v_rock2.mdl
+FindFile: ./id1/glquake/v_rock2.ms2
+PackFile: ./id1/pak0.pak : progs/bolt.mdl
+FindFile: ./id1/glquake/bolt.ms2
+PackFile: ./id1/pak0.pak : progs/bolt2.mdl
+FindFile: ./id1/glquake/bolt2.ms2
+PackFile: ./id1/pak0.pak : progs/bolt3.mdl
+FindFile: ./id1/glquake/bolt3.ms2
+PackFile: ./id1/pak0.pak : progs/lavaball.mdl
+FindFile: ./id1/glquake/lavaball.ms2
+PackFile: ./id1/pak0.pak : progs/missile.mdl
+FindFile: ./id1/glquake/missile.ms2
+PackFile: ./id1/pak0.pak : progs/grenade.mdl
+FindFile: ./id1/glquake/grenade.ms2
+PackFile: ./id1/pak0.pak : progs/spike.mdl
+FindFile: ./id1/glquake/spike.ms2
+PackFile: ./id1/pak0.pak : progs/s_spike.mdl
+FindFile: ./id1/glquake/s_spike.ms2
+PackFile: ./id1/pak0.pak : progs/backpack.mdl
+FindFile: ./id1/glquake/backpack.ms2
+PackFile: ./id1/pak0.pak : progs/zom_gib.mdl
+FindFile: ./id1/glquake/zom_gib.ms2
+PackFile: ./id1/pak0.pak : progs/v_light.mdl
+FindFile: ./id1/glquake/v_light.ms2
+PackFile: ./id1/pak1.pak : progs/b_g_key.mdl
+FindFile: ./id1/glquake/b_g_key.ms2
+PackFile: ./id1/pak0.pak : progs/suit.mdl
+FindFile: ./id1/glquake/suit.ms2
+PackFile: ./id1/pak1.pak : progs/enforcer.mdl
+FindFile: ./id1/glquake/enforcer.ms2
+PackFile: ./id1/pak1.pak : progs/h_mega.mdl
+FindFile: ./id1/glquake/h_mega.ms2
+PackFile: ./id1/pak1.pak : progs/laser.mdl
+FindFile: ./id1/glquake/laser.ms2
+PackFile: ./id1/pak0.pak : progs/soldier.mdl
+FindFile: ./id1/glquake/soldier.ms2
+PackFile: ./id1/pak0.pak : progs/h_guard.mdl
+FindFile: ./id1/glquake/h_guard.ms2
+PackFile: ./id1/pak0.pak : maps/b_bh25.bsp
+PackFile: ./id1/pak0.pak : maps/b_shell0.bsp
+PackFile: ./id1/pak0.pak : maps/b_nail0.bsp
+PackFile: ./id1/pak0.pak : progs/g_nail.mdl
+FindFile: ./id1/glquake/g_nail.ms2
+PackFile: ./id1/pak0.pak : progs/h_dog.mdl
+FindFile: ./id1/glquake/h_dog.ms2
+PackFile: ./id1/pak0.pak : progs/dog.mdl
+FindFile: ./id1/glquake/dog.ms2
+PackFile: ./id1/pak0.pak : progs/g_shot.mdl
+FindFile: ./id1/glquake/g_shot.ms2
+PackFile: ./id1/pak0.pak : maps/b_explob.bsp
+PackFile: ./id1/pak0.pak : progs/armor.mdl
+FindFile: ./id1/glquake/armor.ms2
+PackFile: ./id1/pak0.pak : sound/weapons/rocket1i.wav
+PackFile: ./id1/pak0.pak : sound/weapons/sgun1.wav
+PackFile: ./id1/pak0.pak : sound/weapons/guncock.wav
+PackFile: ./id1/pak0.pak : sound/weapons/spike2.wav
+PackFile: ./id1/pak0.pak : sound/weapons/grenade.wav
+PackFile: ./id1/pak0.pak : sound/weapons/bounce.wav
+PackFile: ./id1/pak0.pak : sound/weapons/shotgn2.wav
+PackFile: ./id1/pak0.pak : sound/demon/dland2.wav
+PackFile: ./id1/pak0.pak : sound/misc/h2ohit1.wav
+PackFile: ./id1/pak0.pak : sound/items/itembk2.wav
+PackFile: ./id1/pak0.pak : sound/player/plyrjmp8.wav
+PackFile: ./id1/pak0.pak : sound/player/land.wav
+PackFile: ./id1/pak0.pak : sound/player/land2.wav
+PackFile: ./id1/pak0.pak : sound/player/drown1.wav
+PackFile: ./id1/pak0.pak : sound/player/drown2.wav
+PackFile: ./id1/pak0.pak : sound/player/gasp1.wav
+PackFile: ./id1/pak0.pak : sound/player/gasp2.wav
+PackFile: ./id1/pak0.pak : sound/player/h2odeath.wav
+PackFile: ./id1/pak0.pak : sound/misc/talk.wav
+PackFile: ./id1/pak0.pak : sound/player/teledth1.wav
+PackFile: ./id1/pak0.pak : sound/misc/r_tele1.wav
+PackFile: ./id1/pak0.pak : sound/misc/r_tele2.wav
+PackFile: ./id1/pak0.pak : sound/misc/r_tele3.wav
+PackFile: ./id1/pak0.pak : sound/misc/r_tele4.wav
+PackFile: ./id1/pak0.pak : sound/misc/r_tele5.wav
+PackFile: ./id1/pak0.pak : sound/weapons/lock4.wav
+PackFile: ./id1/pak0.pak : sound/weapons/pkup.wav
+PackFile: ./id1/pak0.pak : sound/items/armor1.wav
+PackFile: ./id1/pak0.pak : sound/weapons/lhit.wav
+PackFile: ./id1/pak0.pak : sound/weapons/lstart.wav
+PackFile: ./id1/pak0.pak : sound/items/damage2.wav
+PackFile: ./id1/pak0.pak : sound/items/damage3.wav
+PackFile: ./id1/pak0.pak : sound/misc/power.wav
+PackFile: ./id1/pak0.pak : sound/player/gib.wav
+PackFile: ./id1/pak0.pak : sound/player/udeath.wav
+PackFile: ./id1/pak0.pak : sound/player/tornoff2.wav
+PackFile: ./id1/pak0.pak : sound/player/pain1.wav
+PackFile: ./id1/pak0.pak : sound/player/pain2.wav
+PackFile: ./id1/pak0.pak : sound/player/pain3.wav
+PackFile: ./id1/pak0.pak : sound/player/pain4.wav
+PackFile: ./id1/pak0.pak : sound/player/pain5.wav
+PackFile: ./id1/pak0.pak : sound/player/pain6.wav
+PackFile: ./id1/pak0.pak : sound/player/death1.wav
+PackFile: ./id1/pak0.pak : sound/player/death2.wav
+PackFile: ./id1/pak0.pak : sound/player/death3.wav
+PackFile: ./id1/pak0.pak : sound/player/death4.wav
+PackFile: ./id1/pak0.pak : sound/player/death5.wav
+PackFile: ./id1/pak0.pak : sound/weapons/ax1.wav
+PackFile: ./id1/pak0.pak : sound/player/axhit1.wav
+PackFile: ./id1/pak0.pak : sound/player/axhit2.wav
+PackFile: ./id1/pak0.pak : sound/player/h2ojump.wav
+FindFile: ./id1/sound/player/slimbrn2.wav
+PackFile: ./id1/pak0.pak : sound/player/inh2o.wav
+PackFile: ./id1/pak0.pak : sound/player/inlava.wav
+PackFile: ./id1/pak0.pak : sound/misc/outwater.wav
+PackFile: ./id1/pak0.pak : sound/player/lburn1.wav
+PackFile: ./id1/pak0.pak : sound/player/lburn2.wav
+PackFile: ./id1/pak0.pak : sound/misc/water1.wav
+PackFile: ./id1/pak0.pak : sound/misc/water2.wav
+PackFile: ./id1/pak0.pak : sound/plats/medplat1.wav
+PackFile: ./id1/pak0.pak : sound/plats/medplat2.wav
+PackFile: ./id1/pak1.pak : sound/misc/basekey.wav
+PackFile: ./id1/pak0.pak : sound/buttons/switch21.wav
+PackFile: ./id1/pak0.pak : sound/items/suit.wav
+PackFile: ./id1/pak0.pak : sound/items/suit2.wav
+PackFile: ./id1/pak0.pak : sound/doors/basetry.wav
+PackFile: ./id1/pak0.pak : sound/doors/baseuse.wav
+PackFile: ./id1/pak0.pak : sound/doors/hydro1.wav
+PackFile: ./id1/pak0.pak : sound/doors/hydro2.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/death1.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/enfire.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/enfstop.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/idle1.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/pain1.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/pain2.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/sight1.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/sight2.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/sight3.wav
+PackFile: ./id1/pak1.pak : sound/enforcer/sight4.wav
+PackFile: ./id1/pak0.pak : sound/soldier/death1.wav
+PackFile: ./id1/pak0.pak : sound/soldier/idle.wav
+PackFile: ./id1/pak0.pak : sound/soldier/pain1.wav
+PackFile: ./id1/pak0.pak : sound/soldier/pain2.wav
+PackFile: ./id1/pak0.pak : sound/soldier/sattck1.wav
+PackFile: ./id1/pak0.pak : sound/soldier/sight1.wav
+PackFile: ./id1/pak0.pak : sound/items/health1.wav
+PackFile: ./id1/pak0.pak : sound/dog/dattack1.wav
+PackFile: ./id1/pak0.pak : sound/dog/ddeath.wav
+PackFile: ./id1/pak0.pak : sound/dog/dpain1.wav
+PackFile: ./id1/pak0.pak : sound/dog/dsight.wav
+PackFile: ./id1/pak0.pak : sound/dog/idle.wav
+PackFile: ./id1/pak0.pak : sound/misc/secret.wav
+PackFile: ./id1/pak0.pak : sound/doors/basesec1.wav
+PackFile: ./id1/pak0.pak : sound/doors/basesec2.wav
+PackFile: ./id1/pak0.pak : sound/ambience/comp1.wav
+==== filter audit: 207 texture objects, 0 with a filter the driver refuses
+
+============================== 
+check out our commands 
+Zoom90 or Zoom120 for the zoom function 
+Dev for development bindings 
+Cam for the camera system we use for the main menu demos 
+============================== 
+
+============================== 
+LibreQuake Version V0.09-beta 
+============================== 
+PackFile: ./id1/pak0.pak : gfx/qplaque.lmp
+PackFile: ./id1/pak0.pak : gfx/ttl_main.lmp
+PackFile: ./id1/pak1.pak : gfx/mainmenu.lmp
+PackFile: ./id1/pak0.pak : gfx/menudot1.lmp
+PackFile: ./id1/pak0.pak : sound/misc/menu2.wav
+PackFile: ./id1/pak0.pak : gfx/menudot2.lmp
+PackFile: ./id1/pak0.pak : gfx/menudot3.lmp
+PackFile: ./id1/pak0.pak : gfx/menudot4.lmp
+PackFile: ./id1/pak0.pak : gfx/menudot5.lmp
+PackFile: ./id1/pak0.pak : gfx/menudot6.lmp
+PackFile: ./id1/pak0.pak : gfx/ttl_sgl.lmp
+PackFile: ./id1/pak0.pak : gfx/sp_menu.lmp
+PackFile: ./id1/pak0.pak : progs.dat
+PackFile: ./id1/pak0.pak : maps/start.bsp
+'mapversion' is not a field
+==== filter audit: 292 texture objects, 0 with a filter the driver refuses
+PackFile: ./id1/pak0.pak : progs/s_bubble.spr
+PackFile: ./id1/pak0.pak : progs/s_explod.spr
+PackFile: ./id1/pak0.pak : maps/b_explob.bsp
+PackFile: ./id1/pak1.pak : maps/b_exbox2.bsp
+PackFile: ./id1/pak0.pak : progs/zombie.mdl
+FindFile: ./id1/glquake/zombie.ms2
+PackFile: ./id1/pak0.pak : progs/h_zombie.mdl
+FindFile: ./id1/glquake/h_zombie.ms2
+
+VERSION 1.09 SERVER (62091 CRC)
+
+
+
+Tainted Tech Threshold
+PackFile: ./id1/pak0.pak : sound/boss1/sight1.wav
+PackFile: ./id1/pak0.pak : sound/items/protect.wav
+PackFile: ./id1/pak0.pak : sound/items/protect2.wav
+PackFile: ./id1/pak0.pak : sound/items/protect3.wav
+PackFile: ./id1/pak0.pak : sound/ambience/windfly.wav
+PackFile: ./id1/pak0.pak : sound/ambience/hum1.wav
+PackFile: ./id1/pak0.pak : sound/buttons/switch02.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_idle.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_idle1.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_shot1.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_gib.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_pain.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_pain1.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_fall.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_miss.wav
+PackFile: ./id1/pak0.pak : sound/zombie/z_hit.wav
+PackFile: ./id1/pak0.pak : sound/zombie/idle_w2.wav
+PackFile: ./id1/pak0.pak : sound/misc/null.wav
+PackFile: ./id1/pak0.pak : sound/ambience/drone6.wav
+PackFile: ./id1/pak0.pak : sound/ambience/drip1.wav
+==== filter audit: 316 texture objects, 0 with a filter the driver refuses
+LQ Player entered the game
+PackFile: ./id1/pak0.pak : sound/misc/menu1.wav
+PackFile: ./id1/pak0.pak : gfx/box_tl.lmp
+PackFile: ./id1/pak0.pak : gfx/box_ml.lmp
+PackFile: ./id1/pak0.pak : gfx/box_bl.lmp
+PackFile: ./id1/pak0.pak : gfx/box_tm.lmp
+PackFile: ./id1/pak0.pak : gfx/box_mm.lmp
+PackFile: ./id1/pak0.pak : gfx/box_mm2.lmp
+PackFile: ./id1/pak0.pak : gfx/box_bm.lmp
+PackFile: ./id1/pak0.pak : gfx/box_tr.lmp
+PackFile: ./id1/pak0.pak : gfx/box_mr.lmp
+PackFile: ./id1/pak0.pak : gfx/box_br.lmp
+Client LQ Player removed
+INFO: OPENSTEP audio: 445 buffers of 2756 frames, 6 queued; worst wait 666 ms, worst submit 3 ms
+INFO: OPENSTEP audio: this thread base priority 10, current 10, max 18, depressed 0
+INFO: OPENSTEP audio: SDL mutexes yield; 2690 acquisitions took 19338 ms in total, worst 3177 ms
+INFO: OPENSTEP audio: refill gap ms    <25:385  <50:7 <100:17 <150:6 <250:6 <375:9 <500:7 >=500:7   worst 3180 ms
+INFO: OPENSTEP audio: 35 gaps over 100 ms; first 35, as (seconds into the run, gap ms, cpu ms in that gap):
+INFO: OPENSTEP audio:   4.639  gap 1619  cpu 0
+INFO: OPENSTEP audio:   8.058  gap 3180  cpu 10
+INFO: OPENSTEP audio:   8.319  gap 161  cpu 10
+INFO: OPENSTEP audio:   15.060  gap 488  cpu 0
+INFO: OPENSTEP audio:   15.906  gap 168  cpu 0
+INFO: OPENSTEP audio:   16.246  gap 238  cpu 0
+INFO: OPENSTEP audio:   16.899  gap 424  cpu 0
+INFO: OPENSTEP audio:   17.339  gap 107  cpu 10
+INFO: OPENSTEP audio:   17.707  gap 102  cpu 0
+INFO: OPENSTEP audio:   17.947  gap 107  cpu 0
+INFO: OPENSTEP audio:   20.438  gap 280  cpu 0
+INFO: OPENSTEP audio:   21.259  gap 762  cpu 0
+INFO: OPENSTEP audio:   21.509  gap 142  cpu 0
+INFO: OPENSTEP audio:   22.409  gap 801  cpu 0
+INFO: OPENSTEP audio:   22.779  gap 262  cpu 0
+INFO: OPENSTEP audio:   23.378  gap 541  cpu 0
+INFO: OPENSTEP audio:   23.589  gap 101  cpu 0
+INFO: OPENSTEP audio:   24.068  gap 440  cpu 0
+INFO: OPENSTEP audio:   25.170  gap 292  cpu 0
+INFO: OPENSTEP audio:   25.966  gap 298  cpu 0
+INFO: OPENSTEP audio:   27.082  gap 304  cpu 0
+INFO: OPENSTEP audio:   28.008  gap 120  cpu 0
+INFO: OPENSTEP audio:   29.068  gap 240  cpu 0
+INFO: OPENSTEP audio:   29.949  gap 306  cpu 0
+INFO: OPENSTEP audio:   30.255  gap 287  cpu 0
+INFO: OPENSTEP audio:   31.328  gap 618  cpu 0
+INFO: OPENSTEP audio:   31.848  gap 184  cpu 0
+INFO: OPENSTEP audio:   32.128  gap 179  cpu 0
+INFO: OPENSTEP audio:   32.468  gap 280  cpu 0
+INFO: OPENSTEP audio:   33.399  gap 721  cpu 0
+INFO: OPENSTEP audio:   33.981  gap 473  cpu 0
+INFO: OPENSTEP audio:   34.359  gap 280  cpu 0
+INFO: OPENSTEP audio:   34.810  gap 392  cpu 0
+INFO: OPENSTEP audio:   35.298  gap 391  cpu 0
+INFO: OPENSTEP audio:   35.829  gap 421  cpu 0

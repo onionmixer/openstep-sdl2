@@ -1,0 +1,49 @@
+=== glquake ===
+GLQUAKE_CORE_COMPILE ok=47 fail=0
+
+platform:
+  ok    cd_null.c (upstream)
+  ok    sys_sdl.c (port)
+  ok    snd_sdl.c (port)
+  ok    net_udp.c (port)
+  ok    in_sdl.c (port)
+  ok    gl_vidsdl.c (port)
+  ok    gl_rmisc.c (port)
+
+link:
+/bin/ld: warning /usr/lib/libm.a(pow.o) has external relocation entries in non-writable section (__TEXT,__text) for symbols:
+_errno
+/usr/local/nxbuild/bin/glquake:
+Mach header
+      magic cputype cpusubtype   filetype ncmds sizeofcmds      flags
+ 0xfeedface       7          4          2    13       3220 0x00000005
+/bin/ld: warning /usr/lib/libm.a(pow.o) has external relocation entries in non-writable section (__TEXT,__text) for symbols:
+_errno
+/usr/local/nxbuild/bin/glquake_sw:
+Mach header
+      magic cputype cpusubtype   filetype ncmds sizeofcmds      flags
+ 0xfeedface       7          4          2    13       3220 0x00000005
+  control: /usr/local/nxbuild/bin/glquake_sw (stock Mesa)
+
+GLQUAKE_BUILD=pass /usr/local/nxbuild/bin/glquake
+glquake rc=0
+=== water1 ===
+=== 1. environment ===
+  headers agree (both SDL spellings, shim + SDL config)
+  cc: NeXT Software, Inc. version cc-744.13, gcc version 2.7.2.1
+  log: /tmp/water1-build-10681
+=== 2. shared objects ===
+  22 translation units
+=== 3. game objects ===
+  41 translation units
+=== 4. link ===
+  /usr/local/nxbuild/bin/water1
+
+=== done ===
+water1 finds its data through the CURRENT DIRECTORY, not through its
+own path: ./Fonts/Galmuri7.bdf, ./LANGUAGE_<lang>.lng, and the data
+directory given by --data=<dir>, where it also writes SAVE.DAT.  So
+run it from a writable directory holding those, e.g.
+    cd /me/water1 && /usr/local/nxbuild/bin/water1 --data=data
+water1 rc=0
+DONE

@@ -30,8 +30,8 @@ been rebuilt using only `/LocalDeveloper` headers and libraries.  The detailed
 contract is
 [release-packaging/SPLIT_PACKAGE_CONTRACT.md](release-packaging/SPLIT_PACKAGE_CONTRACT.md).
 
-**Latest release: `v2.32.10-openstep.3`** —
-[release notes](RELEASE_NOTES_v2.32.10-openstep.3.md).
+**Latest release: `v2.32.10-openstep.4`** —
+[release notes](RELEASE_NOTES_v2.32.10-openstep.4.md).
 
 ## Accelerated OpenGL on a Matrox G450
 

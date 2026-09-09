@@ -1,0 +1,66 @@
+=== prepare ===
+prepare-openstep: writable source ready at /me/SDL20/build/SDL-2.32.10-openstep
+=== release archive ===
+compile-sdl-init-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-init-gate.o (object only; not final SDL_Init)
+compile-sdl-assert-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-assert-gate.o (object only)
+No match.
+compile-sdl-core-support-gate: PASS 21 upstream/common objects (object only)
+No match.
+compile-sdl-common-utilities-gate: PASS 6 upstream utility objects (object only)
+compile-sdl-hidapi-fallback-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-hidapi-fallback-gate.o (standard disabled-HIDAPI object)
+No match.
+compile-sdl-audio-core-gate: PASS 7 upstream audio objects (object only)
+No match.
+compile-openstep-audio-bootstrap-gate: PASS SoundKit backend object (object only)
+No match.
+compile-sdl-events-full-gate: PASS 13 complete upstream event objects (object only)
+No match.
+compile-sdl-sensor-gate: PASS upstream generic plus dummy sensor objects (object only)
+No match.
+compile-sdl-joystick-core-gate: PASS 5 upstream joystick/game-controller objects (object only)
+No match.
+compile-sdl-haptic-core-gate: PASS upstream generic plus dummy haptic objects (object only)
+No match.
+compile-sdl-standard-fallbacks-gate: PASS 5 upstream fallback objects (object only)
+No match.
+compile-sdl-misc-fallback-gate: PASS 2 upstream URL fallback objects (object only)
+compile-sdl-rect-core-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-rect-core-gate.o (object only)
+No match.
+compile-sdl-surface-core-gate: PASS 2 objects (object only)
+compile-sdl-bmp-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-bmp-gate.o (standard BMP load/save object)
+compile-sdl-shape-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-shape-gate.o (standard unsupported-shape API object)
+No match.
+compile-sdl-blit-core-gate: PASS 14 objects (object only)
+No match.
+compile-sdl-libm-gate: PASS upstream SDL libm objects (object only)
+No match.
+compile-sdl-cpuinfo-gate: PASS OPENSTEP/i386 CPU information object
+compile-sdl-video-core-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-video-core-gate.o (object only)
+compile-sdl-clipboard-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-clipboard-gate.o (public clipboard dispatcher)
+compile-openstep-video-bootstrap-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/openstep-video-bootstrap-gate.o (bootstrap/window/framebuffer/events/OSMesa GL callbacks)
+No match.
+compile-sdl-software-renderer-gate: PASS 10 upstream common/software renderer objects (object only)
+compile-sdl-fillrect-gate: PASS /me/SDL20/build/SDL-2.32.10-openstep/SDL-fillrect-gate.o (object only)
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2-diagnostic.a(m33.o) has no symbols
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2-diagnostic.a(m40.o) has no symbols
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2-diagnostic.a(m43.o) has no symbols
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2-diagnostic.a(m49.o) has no symbols
+nm: no name list
+nm: no name list
+nm: no name list
+nm: no name list
+report-sdl2-openstep-manifest: 836/836 API symbols present; 0 missing
+assemble-sdl2-openstep-diagnostic-archive: PASS /me/SDL20/build/SDL-2.32.10-openstep/libSDL2-diagnostic.a (diagnostic only)
+build-sdl2-openstep-diagnostic-archive: PASS short-member diagnostic archive
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2.a(m33.o) has no symbols
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2.a(m40.o) has no symbols
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2.a(m43.o) has no symbols
+ranlib: file: /me/SDL20/build/SDL-2.32.10-openstep/libSDL2.a(m49.o) has no symbols
+nm: no name list
+nm: no name list
+nm: no name list
+nm: no name list
+check-final-api-manifest: PASS 836 API symbols in /me/SDL20/build/SDL-2.32.10-openstep/libSDL2.a
+build-sdl2-openstep-release-archive: PASS /me/SDL20/build/SDL-2.32.10-openstep/libSDL2.a
+rc=0
+DONE

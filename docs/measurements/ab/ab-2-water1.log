@@ -1,0 +1,2 @@
+arm 2: SDL_OPENSTEP_MUTEX=yield SDL_OPENSTEP_THREAD_PRIORITY=on
+sound_init: want 49716Hz fmt=0x8010 ch=2 samples=1024 / have 49716Hz fmt=0x8010 ch=2 samples=1024

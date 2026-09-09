@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <libc.h>
 #include <sys/time.h>
+#include <mach/cthreads.h>
 
 #include "SDL_atomic.h"
 #include "SDL_timer.h"
@@ -110,6 +111,33 @@ void SDL_Delay(Uint32 milliseconds)
     Uint64 now;
     Uint64 elapsed;
     int result;
+
+    /*
+     * SDL_Delay(0) MUST NOT TOUCH THE TIMER.
+     *
+     * The core's spinlock (src/atomic/SDL_spinlock.c) spins 32 times and
+     * then calls SDL_Delay(0) to give up the processor.  This function
+     * used to begin with SDL_GetTicks64(), which takes openstep_ticks_lock
+     * -- an SDL spinlock -- and with milliseconds == 0 the loop below
+     * exits before ever reaching select().  So a thread spinning on the
+     * ticks lock itself (SDL_GetPerformanceCounter is that lock, and the
+     * audio backend reads it four times a buffer) fell back into
+     * SDL_Delay(0), took the same lock again, spun, fell back again: a
+     * recursion that never yields, a few hundred frames deep in under a
+     * millisecond, until the stack is gone.  It needs only the lock's
+     * holder to be preempted inside its few-instruction critical section,
+     * and a boosted audio thread preempts the main thread at whatever
+     * instruction it happens to be on.
+     *
+     * cthread_yield() is swtch_pri(0): the calling thread is depressed and
+     * the processor is handed to whoever is runnable -- the holder
+     * included, whatever its priority.  That is the one thing a spinlock
+     * fallback has to do, and it is the thing the old path never did.
+     */
+    if (milliseconds == 0) {
+        cthread_yield();
+        return;
+    }
 
     then = SDL_GetTicks64();
     do {

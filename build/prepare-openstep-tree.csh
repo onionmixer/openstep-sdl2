@@ -166,6 +166,7 @@ cp $source_root/upstream/SDL-2.32.10/src/thread/SDL_systhread.h $build_root/src/
 cp $source_root/upstream/SDL-2.32.10/src/thread/generic/SDL_systls.c $build_root/src/thread/generic/
 cp $source_root/upstream/SDL-2.32.10/src/thread/generic/SDL_systhread_c.h $build_root/src/thread/generic/
 cp $source_root/port/openstep/src/thread/openstep/SDL_systhread_c.h $build_root/src/thread/openstep/
+cp $source_root/port/openstep/src/thread/openstep/SDL_openstepmutex_c.h $build_root/src/thread/openstep/
 cp $source_root/port/openstep/src/thread/openstep/SDL_systls.c $build_root/src/thread/openstep/
 cp $source_root/port/openstep/src/thread/openstep/SDL_systhread.c $build_root/src/thread/openstep/
 cp $source_root/port/openstep/src/thread/openstep/SDL_sysmutex.c $build_root/src/thread/openstep/

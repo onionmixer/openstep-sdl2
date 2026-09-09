@@ -1,7 +1,7 @@
 # Template consumed by /NextAdmin/Installer.app/package.
 # The package utility derives OpenStepSDL2.pkg from this basename.
 Title OPENSTEP SDL2 (Intel i486)
-Version 2.32.10-openstep.1
+Version 2.32.10-openstep.4
 Description Intel i486-only static SDL 2.32.10 development library for OPENSTEP 4.2.
 DefaultLocation /LocalDeveloper
 Relocatable YES

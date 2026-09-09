@@ -1,6 +1,6 @@
 product=OPENSTEP SDL2
 upstream_version=2.32.10
-port_revision=2.32.10-openstep.1
+port_revision=2.32.10-openstep.4
 target_os=OPENSTEP 4.2
 target_cpu=i486
 binary_architecture=Mach-O i386 only
