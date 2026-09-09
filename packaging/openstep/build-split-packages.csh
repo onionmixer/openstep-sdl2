@@ -16,6 +16,12 @@ set dpre = $src/packaging/openstep/OpenStepSDL2Demos.pre_install
 set post = $src/packaging/openstep/OpenStepSDL2.post_install
 set marksrc = $src/packaging/openstep/installer-architecture-marker.c
 set pkgtool = /NextAdmin/Installer.app/package
+# Mesa is a separate product with its own packages (openstep-mesa342), and
+# this release does not touch it.  The demos therefore link the INSTALLED
+# libGL.a, the same one anybody who installs the packages would link --
+# not a Mesa build tree, which made this script depend on having built
+# somebody else's product first and failed when that tree was absent.
+set gl = /LocalDeveloper/Libraries/libGL.a
 
 foreach file ( $linf $hinf $dinf $pre $hpre $dpre $post $marksrc )
     if (! -r $file) then
@@ -23,6 +29,11 @@ foreach file ( $linf $hinf $dinf $pre $hpre $dpre $post $marksrc )
         exit 2
     endif
 end
+if (! -r $gl) then
+    echo "build-sdl2-split: $gl is not installed"
+    echo "build-sdl2-split: install OpenStepMesa342Libraries.pkg first"
+    exit 2
+endif
 csh -f $src/build/build-sdl2-openstep-release-archive.csh
 if ($status != 0) exit 1
 if (! -r $out/libSDL2.a || ! -r $out/include/SDL.h) exit 1
@@ -77,7 +88,7 @@ cp $src/upstream/SDL-2.32.10/test/testspriteminimal.c $src/upstream/SDL-2.32.10/
 cp $src/upstream/SDL-2.32.10/src/test/SDL_test_common.c $src/upstream/SDL-2.32.10/src/test/SDL_test_assert.c $src/upstream/SDL-2.32.10/src/test/SDL_test_log.c $src/upstream/SDL-2.32.10/src/test/SDL_test_font.c $src/upstream/SDL-2.32.10/src/test/SDL_test_memory.c $src/upstream/SDL-2.32.10/src/test/SDL_test_crc32.c $dpay/Examples/OpenStep-SDL2-2.32.10/Support/
 chmod 555 $dpay/Examples/OpenStep-SDL2-2.32.10/build-sdl2-clear.csh
 chmod 555 $dpay/Examples/OpenStep-SDL2-2.32.10/build-upstream-demos.csh
-cc -m486 -arch i386 -D__OPENSTEP__ -I$hpay/Headers $src/release-examples/sdl2/sdl2_clear.c $out/libSDL2.a -L$work/mesa/Mesa-3.4.2/lib -lGL -lm -framework AppKit -framework Foundation -framework SoundKit -o $dpay/Examples/OpenStep-SDL2-2.32.10/sdl2_clear
+cc -m486 -arch i386 -D__OPENSTEP__ -I$hpay/Headers $src/release-examples/sdl2/sdl2_clear.c $out/libSDL2.a $gl -lm -framework AppKit -framework Foundation -framework SoundKit -o $dpay/Examples/OpenStep-SDL2-2.32.10/sdl2_clear
 if ($status != 0) then
     echo "build-sdl2-split: cannot build i386 SDL2 demo"
     exit 1
@@ -88,7 +99,7 @@ cp $demodir/Upstream/icon.bmp $demodir/icon.bmp
 cp $demodir/Upstream/sample.wav $demodir/sample.wav
 set common = "$demodir/Support/SDL_test_common.c $demodir/Support/SDL_test_font.c $demodir/Support/SDL_test_memory.c $demodir/Support/SDL_test_crc32.c"
 set flags = "-m486 -arch i386 -D__OPENSTEP__ -I$hpay/Headers -I$hpay/Headers/SDL2 -I$demodir/Upstream -I$demodir/Support"
-set libraries = "$out/libSDL2.a -L$work/mesa/Mesa-3.4.2/lib -lGL -lm -framework AppKit -framework Foundation -framework SoundKit"
+set libraries = "$out/libSDL2.a $gl -lm -framework AppKit -framework Foundation -framework SoundKit"
 cc $flags -DHAVE_OPENGL $demodir/Upstream/testgl11cube.c $common $libraries -o $demodir/testgl11cube
 if ($status != 0) exit 1
 cc $flags $demodir/Upstream/testspriteminimal.c $demodir/Upstream/testutils.c $libraries -o $demodir/testspriteminimal
