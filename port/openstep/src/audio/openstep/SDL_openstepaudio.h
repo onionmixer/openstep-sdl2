@@ -311,6 +311,43 @@ struct SDL_PrivateAudioData
     int next_tag;
     int head;
     int count;
+    /*
+     * THE STREAM PATH (the default; SDL_OPENSTEP_AUDIO_API=sound turns it off).
+     *
+     * One NXPlayStream on one NXSoundOut, fed from a ring of buffers that
+     * are never touched again until SoundKit says it has finished with
+     * them.  The objects are Objective-C and held as void * so this
+     * header stays C; only the backend's one SoundKit thread sends them
+     * messages (SDL_openstepaudio.m, "ONE THREAD SPEAKS OBJECTIVE-C").
+     * st_tag_of[slot] is the tag in flight in that slot, 0 when free; the
+     * completion callback frees a slot only when the tag it reports is the
+     * one the slot holds.  Everything from st_ring down is shared with
+     * SoundKit's reply thread and taken under the backend's one
+     * process-wide stream lock.
+     */
+    int use_stream;
+    void *st_dev;                       /* NXSoundOut */
+    void *st_stream;                    /* NXPlayStream */
+    void *st_delegate;                  /* the callback target; never freed */
+    Uint8 *st_ring[OPENSTEP_AUDIO_QUEUE_SLOTS];
+    int st_ring_ok;
+    int st_tag_of[OPENSTEP_AUDIO_QUEUE_SLOTS];
+    int st_next_tag;
+    int st_outstanding;
+    int st_out_max;
+    int st_failed;
+    unsigned int st_submitted, st_started, st_completed;
+    unsigned int st_stale_cb, st_underrun_cb, st_timeouts, st_empty;
+    int st_async_fail;                  /* the SoundKit thread saw playBuffer refuse; the audio thread reports it */
+    /* SDL_OPENSTEP_AUDIO_TRACE only (docs/PLAN_RELEASE_OPENSTEP5.md 16):
+       per-buffer and per-completion time traces, written out at close.
+       NULL when not tracing.  ctrace is written by SoundKit's reply thread
+       under the stream lock. */
+    void *trace;                        /* OPENSTEP_TraceRow[OPENSTEP_TRACE_ROWS] */
+    unsigned int trace_n;               /* rows begun; the ring index is trace_n % rows */
+    int trace_cur;                      /* the row of this PlayDevice/WaitDevice pair, -1 none */
+    void *ctrace;                       /* OPENSTEP_CompRow[OPENSTEP_TRACE_ROWS] */
+    unsigned int ctrace_n;
 };
 
 #endif

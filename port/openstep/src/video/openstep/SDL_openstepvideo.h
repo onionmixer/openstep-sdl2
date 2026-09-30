@@ -57,6 +57,7 @@ typedef struct SDL_OpenStepWindowData
     int gl_stamp_last_y;
     SDL_bool has_restore_frame;
     SDL_bool has_fullscreen_restore_frame;
+    SDL_bool present_whole_once; /* next present displays the whole bitmap */
 } SDL_OpenStepWindowData;
 
 #endif /* SDL_openstepvideo_h_ */

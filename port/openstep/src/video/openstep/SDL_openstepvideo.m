@@ -2040,6 +2040,7 @@ static int OPENSTEP_CreateWindowFramebuffer(_THIS, SDL_Window *window,
     data->bitmap = (void *)bitmap;
     [(SDL_OpenStepView *)data->view setSDLBitmap:bitmap];
     [bitmap release];
+    data->present_whole_once = SDL_TRUE;
     *format = SDL_PIXELFORMAT_RGB888;
     *pixels = data->framebuffer_pixels;
     *pitch = data->framebuffer_pitch;
@@ -2070,6 +2071,9 @@ static int OPENSTEP_PresentFramebuffer(_THIS, SDL_Window *window,
     SDL_OpenStepWindowData *data = (SDL_OpenStepWindowData *)window->driverdata;
     SDL_Rect full_rect;
     int index;
+    int u_left = 0, u_top = 0, u_right = 0, u_bottom = 0;
+    SDL_bool have_union = SDL_FALSE;
+    NSRect bounds, dirty;
 
     if (!data || !data->framebuffer_pixels || !data->present_pixels) {
         return SDL_SetError("OPENSTEP window framebuffer is not available");
@@ -2091,6 +2095,15 @@ static int OPENSTEP_PresentFramebuffer(_THIS, SDL_Window *window,
         if (right > window->w) right = window->w;
         if (bottom > window->h) bottom = window->h;
         if (left >= right || top >= bottom) continue;
+        if (!have_union) {
+            u_left = left; u_top = top; u_right = right; u_bottom = bottom;
+            have_union = SDL_TRUE;
+        } else {
+            if (left < u_left) u_left = left;
+            if (top < u_top) u_top = top;
+            if (right > u_right) u_right = right;
+            if (bottom > u_bottom) u_bottom = bottom;
+        }
         for (y = top; y < bottom; ++y) {
             Uint32 *source = (Uint32 *)((Uint8 *)data->framebuffer_pixels + y * data->framebuffer_pitch);
             int drow = reverse_rows ? (window->h - 1 - y) : y;
@@ -2103,8 +2116,40 @@ static int OPENSTEP_PresentFramebuffer(_THIS, SDL_Window *window,
             }
         }
     }
+    /*
+     * ONLY WHAT CHANGED GOES TO THE WINDOW SERVER.
+     *
+     * This used to display the whole bounds on every present, so a caller
+     * that changed one 152-pixel cursor cell still had the Window Server
+     * take the entire 640x480 24-bit picture.  Measured on the machine
+     * (2026-09-29, a game sending ~9 small updates a second): 51 of 54
+     * SNDStartPlaying stalls of 25-42 ms began 65-85 ms after such an
+     * update, against a random baseline spread from 9 ms to 17 s -- the
+     * audible result was a steady crackle.
+     *
+     * The view is flipped and the bitmap is drawn over [self bounds], so
+     * while the bounds are exactly the window's size at the origin a
+     * surface rectangle IS the view rectangle; AppKit clips drawRect: to
+     * it.  In every other case -- a bounds/size mismatch in the middle of
+     * a resize, or nothing left after clamping -- this does what it always
+     * did and displays everything, so no rounding rule is ever needed.
+     * So does the first present after the bitmap is (re)created: until
+     * then the window shows whatever it held before, not the zeroed
+     * bitmap, and a partial first update would leave that around it.
+     * The GL path passes no rectangles and so still gets the full bounds.
+     */
+    bounds = [(NSView *)data->view bounds];
+    dirty = bounds;
+    if (have_union && !data->present_whole_once &&
+        bounds.origin.x == 0.0 && bounds.origin.y == 0.0 &&
+        bounds.size.width == (float)window->w &&
+        bounds.size.height == (float)window->h) {
+        dirty = NSMakeRect((float)u_left, (float)u_top,
+                           (float)(u_right - u_left), (float)(u_bottom - u_top));
+    }
+    data->present_whole_once = SDL_FALSE;
     data->presenting = SDL_TRUE;
-    [(SDL_OpenStepView *)data->view displayRect:[(NSView *)data->view bounds]];
+    [(SDL_OpenStepView *)data->view displayRect:dirty];
     data->presenting = SDL_FALSE;
     return 0;
 }
